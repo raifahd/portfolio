@@ -6,6 +6,11 @@
 }
 
 @layer base {
+  html,
+  body {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
   :root {
     font-family: "Poppins", sans-serif;
     color: #182a36;
@@ -1437,6 +1442,8 @@
   color: #233b47;
   padding: 18px 8px 5px;
   text-align: left;
+  overflow: hidden;
+  pointer-events: none;
 }
 .phone-notch {
   height: 7px;
@@ -1447,23 +1454,40 @@
   left: 50%;
   top: 5px;
   transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 5px;
+}
+.phone-notch::after {
+  content: "";
+  width: 2.5px;
+  height: 2.5px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.28);
 }
 .phone-back {
   top: 72px;
   left: 70px;
   transform: rotate(-12deg);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .phone-front {
   top: 43px;
   left: 166px;
   transform: rotate(10deg);
-  transition: transform 0.6s;
+  transition:
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.6s ease;
 }
-.project-card:hover .phone-front {
-  transform: translateY(-7px) rotate(5deg);
+.project-card:hover .phone-front,
+.case-header-mockup:hover .phone-front {
+  transform: translateY(-8px) rotate(5deg) scale(1.02);
+  box-shadow: 6px 18px 28px rgba(0, 0, 0, 0.22);
 }
-.project-card:hover .phone-back {
-  transform: rotate(-16deg);
+.project-card:hover .phone-back,
+.case-header-mockup:hover .phone-back {
+  transform: translateY(2px) rotate(-16deg);
 }
 .phone-top {
   font-size: 8px;
@@ -1475,7 +1499,12 @@
 .phone-top .mini-avatar {
   width: 14px;
   height: 14px;
-  font-size: 8px;
+  font-size: 7.5px;
+  font-weight: 700;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 .balance-label {
   font-size: 7px;
@@ -1505,11 +1534,13 @@
   font-size: 9px;
   font-weight: 550;
 }
-.bank-card svg {
+.bank-card svg,
+.bank-card .bank-card-icon {
   position: absolute;
   top: 8px;
   right: 8px;
-  width: 10px;
+  width: 11px;
+  height: 11px;
 }
 .bank-card strong {
   display: block;
@@ -1544,6 +1575,11 @@
   background: #e7f0ec;
   font-size: 11px;
   position: relative;
+  transition: transform 0.2s ease;
+}
+.project-card:hover .phone-actions > span,
+.case-header-mockup:hover .phone-actions > span {
+  transform: translateY(-1px);
 }
 .phone-actions small {
   position: absolute;
@@ -1573,9 +1609,12 @@
   flex: 1;
   background: #c5dcd1;
   border-radius: 2px 2px 0 0;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.tiny-chart i:nth-child(4) {
-  background: #488977;
+.project-card:hover .tiny-chart i:nth-child(4),
+.case-header-mockup:hover .tiny-chart i:nth-child(4) {
+  transform: scaleY(1.12);
+  transform-origin: bottom;
 }
 .phone-nav {
   display: flex;
@@ -1599,6 +1638,11 @@
   margin: 17px auto 0;
   display: grid;
   place-items: center;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.project-card:hover .spend-ring,
+.case-header-mockup:hover .spend-ring {
+  transform: rotate(8deg);
 }
 .spend-ring span {
   font-size: 7px;
@@ -3192,10 +3236,10 @@ dialog::backdrop {
     gap: 7px;
   }
   .project-grid {
-    gap: 14px;
+    gap: 16px;
   }
   .project-cover {
-    height: 228px;
+    height: 252px;
   }
   .app-window {
     transform: scale(0.85) rotate(-7deg);
@@ -4324,16 +4368,16 @@ dialog::backdrop {
 }
 .hms-window {
   position: absolute;
-  left: 20px;
-  top: 48px;
-  width: 395px;
-  height: 228px;
+  left: 14px;
+  top: 38px;
+  width: 340px;
+  height: 206px;
   border: 2px solid rgba(255, 255, 255, 0.85);
   border-radius: 10px;
   overflow: hidden;
   background: #ffffff;
   color: #1e293b;
-  transform: rotate(-3.5deg);
+  transform: rotate(-3deg);
   box-shadow: -4px 14px 28px rgba(13, 148, 136, 0.16);
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   text-align: left;
@@ -4711,804 +4755,551 @@ dialog::backdrop {
 }
 
 /* ==========================================================================
-   2. TRENDSTREAM THUMBNAIL (TikTok-style Video Commerce)
+   2, 3, 4. DUAL-PHONE MOBILE THUMBNAILS (TRENDSTREAM, ZAMAN ARTS, AL-MIHRAB)
+   Matching the reference dual-phone structure, layout, typography & physics.
    ========================================================================== */
 
-.trendstream-scene {
+/* Shared dual-phone scene layout */
+.pocket-scene {
   width: 100%;
   height: 100%;
   position: relative;
   overflow: hidden;
   pointer-events: auto;
-}
-.ts-aura {
-  position: absolute;
-  width: 280px;
-  height: 280px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.3) 0%, transparent 70%);
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  pointer-events: none;
-}
-.ts-phone {
-  position: absolute;
-  left: 50%;
-  top: 24px;
-  width: 182px;
-  height: 260px;
-  transform: translateX(-50%) rotate(2deg);
-  background: #09090b;
-  border: 3.5px solid #27272a;
-  border-radius: 28px;
-  box-shadow: 0 20px 40px -6px rgba(124, 58, 237, 0.35);
-  overflow: hidden;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  pointer-events: auto;
-}
-.project-card:hover .ts-phone,
-.case-header-mockup:hover .ts-phone {
-  transform: translateX(-50%) translateY(-6px) rotate(0deg) scale(1.02);
-}
-.ts-island-bar {
-  height: 14px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #09090b;
-  position: relative;
-  z-index: 10;
-}
-.ts-island {
-  width: 36px;
-  height: 8px;
-  border-radius: 8px;
-  background: #000;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding-right: 5px;
-}
-.ts-camera {
-  width: 3.5px;
-  height: 3.5px;
-  border-radius: 50%;
-  background: #1e1b4b;
-}
-.ts-screen {
-  position: relative;
-  width: 100%;
-  height: calc(100% - 14px);
-  background: #18181b;
-  overflow: hidden;
-}
-.ts-video-bg {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 60% 30%, #4c1d95 0%, #1e1b4b 55%, #09090b 100%);
-}
-.ts-gradient-mesh {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(236, 72, 153, 0.35) 0%,
-    rgba(139, 92, 246, 0.35) 50%,
-    transparent 80%
-  );
-  animation: mesh-spin 8s ease infinite alternate;
-}
-.ts-shimmer {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 40% 60%, rgba(244, 114, 182, 0.25), transparent 50%);
-}
-.ts-top-overlay {
-  position: absolute;
-  top: 6px;
-  left: 8px;
-  right: 8px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 5;
-}
-.ts-live-tag {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  font-size: 5.5px;
-  font-weight: 750;
-  color: #fff;
-  background: rgba(0, 0, 0, 0.55);
-  backdrop-filter: blur(4px);
-  padding: 2px 6px;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-.ts-red-dot {
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: #ef4444;
-  box-shadow: 0 0 4px #ef4444;
-}
-.ts-cat-pills {
-  display: flex;
-  gap: 3px;
-}
-.ts-cat-pills .cat {
-  font-size: 5px;
-  color: rgba(255, 255, 255, 0.7);
-  padding: 1.5px 5px;
-  border-radius: 8px;
-}
-.ts-cat-pills .cat.active {
-  background: rgba(255, 255, 255, 0.25);
-  color: #fff;
-  font-weight: 700;
-}
-.ts-sidebar-actions {
-  position: absolute;
-  right: 6px;
-  bottom: 64px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  z-index: 6;
-}
-.ts-action-pill {
-  background: none;
-  border: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-  padding: 0;
-  color: #fff;
-  position: relative;
-}
-.ts-action-pill .heart-icon,
-.ts-action-pill .chat-icon {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
-  display: grid;
-  place-items: center;
-  font-size: 9px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition:
-    transform 0.2s,
-    background 0.2s;
-}
-.ts-action-pill:hover .heart-icon {
-  transform: scale(1.15);
-  background: rgba(239, 68, 68, 0.7);
-}
-.ts-action-pill.liked .heart-icon {
-  background: #ef4444;
-  border-color: #ef4444;
-  color: #fff;
-}
-.heart-particle {
-  position: absolute;
-  top: -10px;
-  color: #ef4444;
-  font-size: 12px;
-  animation: float-heart 1s ease-out forwards;
-}
-.ts-action-pill .action-num {
-  font-size: 5px;
-  font-weight: 650;
-  margin-top: 2px;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
-}
-.ts-vinyl {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: #18181b;
-  border: 1.5px solid #a855f7;
-  display: grid;
-  place-items: center;
-  animation: spin-disc 4s linear infinite;
-}
-.vinyl-groove {
-  font-size: 7px;
-  color: #c084fc;
-}
-.ts-product-overlay {
-  position: absolute;
-  left: 6px;
-  right: 6px;
-  bottom: 8px;
-  z-index: 6;
-}
-.ts-sound-bars {
-  display: flex;
-  gap: 2px;
-  align-items: flex-end;
-  height: 8px;
-  margin-bottom: 4px;
-}
-.ts-sound-bars i {
-  width: 2px;
-  background: #c084fc;
-  border-radius: 1px;
-  animation: wave-bounce 1s infinite ease-in-out;
-}
-.ts-sound-bars i:nth-child(1) {
-  animation-delay: 0.1s;
-}
-.ts-sound-bars i:nth-child(2) {
-  animation-delay: 0.3s;
-}
-.ts-sound-bars i:nth-child(3) {
-  animation-delay: 0.5s;
-}
-.ts-sound-bars i:nth-child(4) {
-  animation-delay: 0.2s;
-}
-.ts-sound-bars i:nth-child(5) {
-  animation-delay: 0.4s;
-}
-.ts-card {
-  background: rgba(15, 23, 42, 0.88);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 8px;
-  padding: 5px 7px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.ts-card-left {
-  display: flex;
-  flex-direction: column;
-}
-.ts-in-video {
-  font-size: 4px;
-  font-weight: 750;
-  color: #c084fc;
-  text-transform: uppercase;
-}
-.ts-card-left h4 {
-  font-size: 7px;
-  font-weight: 650;
-  color: #fff;
-  margin: 1px 0;
-}
-.ts-pricing {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  font-size: 6.5px;
-}
-.ts-pricing strong {
-  color: #fff;
-}
-.ts-discount {
-  color: #4ade80;
-  font-weight: 750;
-  font-size: 5px;
-}
-.ts-cart-cta {
-  background: linear-gradient(135deg, #8b5cf6, #ec4899);
-  border: none;
-  color: #fff;
-  border-radius: 5px;
-  padding: 3.5px 7px;
-  font-size: 6px;
-  font-weight: 750;
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.4);
-}
-.ts-floating-chip {
-  position: absolute;
-  top: 45px;
-  left: 20px;
-  background: #ffffff;
-  border: 1px solid #8b5cf6;
-  border-radius: 6px;
-  padding: 4px 8px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  box-shadow: 0 6px 16px rgba(139, 92, 246, 0.25);
-  z-index: 4;
-  pointer-events: none;
-}
-[data-theme="dark"] .ts-floating-chip {
-  background: #130a24;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
-}
-.ts-floating-chip strong {
-  display: block;
-  font-size: 6.5px;
-  color: #0f172a;
-}
-[data-theme="dark"] .ts-floating-chip strong {
-  color: #f1f5f9;
-}
-.ts-floating-chip small {
-  display: block;
-  font-size: 5px;
-  color: #64748b;
 }
 
 /* ==========================================================================
-   3. ZAMAN ARTS THUMBNAIL (Artisan Crafts & Video Commerce)
+   TRENDSTREAM THEME (Live Video Commerce · Purple / Indigo)
    ========================================================================== */
+.trendstream-scene .pocket-circle {
+  background: #dad3f8;
+}
+.trendstream-scene .scene-note {
+  color: #64559c;
+}
+.trendstream-scene .floating-spark {
+  color: #8b5cf6;
+}
+.trendstream-scene .phone {
+  background: #fdfcff;
+  border-color: #231c4b;
+  color: #1e1642;
+  box-shadow: 4px 10px 18px rgba(35, 28, 75, 0.18);
+}
+.trendstream-scene .phone-notch {
+  background: #231c4b;
+}
+.trendstream-scene .mini-avatar {
+  background: #ede9fe;
+  color: #6d28d9;
+}
+.trendstream-scene .balance-label {
+  color: #7c6fae;
+}
+.trendstream-scene .balance {
+  color: #1e1642;
+}
+.trendstream-scene .balance > span {
+  color: #8b7ec8;
+}
+.trendstream-scene .spend-ring {
+  border-color: #8b5cf6;
+  border-right-color: #ddd6fe;
+  border-bottom-color: #4c1d95;
+}
+.trendstream-scene .spend-ring span {
+  color: #7c6fae;
+}
+.trendstream-scene .spend-ring strong {
+  color: #2e1065;
+}
+.trendstream-scene .transaction i {
+  background: #ede9fe;
+  color: #6d28d9;
+}
+.trendstream-scene .transaction span {
+  color: #1e1642;
+}
+.trendstream-scene .transaction small {
+  color: #7c6fae;
+}
+.trendstream-scene .transaction b {
+  color: #2e1065;
+}
+.trendstream-scene .bank-card {
+  background: linear-gradient(135deg, #312e81 0%, #4c1d95 100%);
+  color: #ede9fe;
+  box-shadow: 0 4px 12px rgba(76, 29, 149, 0.35);
+}
+.trendstream-scene .bank-card strong {
+  color: #e0e7ff;
+}
+.trendstream-scene .bank-card small {
+  color: #c7d2fe;
+}
+.trendstream-scene .bank-card b {
+  color: #a5b4fc;
+}
+.trendstream-scene .phone-actions > span {
+  background: #ede9fe;
+  color: #5b21b6;
+}
+.trendstream-scene .phone-actions small {
+  color: #6b5c9e;
+}
+.trendstream-scene .phone-subtitle {
+  color: #1e1642;
+}
+.trendstream-scene .phone-subtitle small {
+  color: #7c6fae;
+}
+.trendstream-scene .tiny-chart i {
+  background: #ddd6fe;
+}
+.trendstream-scene .tiny-chart i:nth-child(4) {
+  background: #7c3aed;
+}
+.trendstream-scene .phone-nav {
+  border-top-color: #ede9fe;
+  color: #6d28d9;
+}
+.trendstream-scene .phone-nav span {
+  color: #a78bfa;
+}
 
-.zamanarts-scene {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  overflow: hidden;
-  pointer-events: auto;
+/* ==========================================================================
+   ZAMAN ARTS THEME (Artisan Handcraft & Chewie 4K · Warm Amber / Walnut)
+   ========================================================================== */
+.zamanarts-scene .pocket-circle {
+  background: #eddccb;
 }
-.za-warm-aura {
-  position: absolute;
-  width: 280px;
-  height: 280px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(217, 119, 6, 0.25) 0%, transparent 70%);
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  pointer-events: none;
+.zamanarts-scene .scene-note {
+  color: #785333;
 }
-.za-phone {
-  position: absolute;
-  left: 50%;
-  top: 24px;
-  width: 182px;
-  height: 260px;
-  transform: translateX(-50%) rotate(-2deg);
-  background: #1c1208;
-  border: 3.5px solid #451a03;
-  border-radius: 28px;
-  box-shadow: 0 20px 40px -6px rgba(217, 119, 6, 0.3);
-  overflow: hidden;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  pointer-events: auto;
+.zamanarts-scene .floating-spark {
+  color: #b45309;
 }
-.project-card:hover .za-phone,
-.case-header-mockup:hover .za-phone {
-  transform: translateX(-50%) translateY(-6px) rotate(0deg) scale(1.02);
+.zamanarts-scene .phone {
+  background: #fdfcf9;
+  border-color: #382416;
+  color: #28180c;
+  box-shadow: 4px 10px 18px rgba(56, 36, 22, 0.18);
 }
-.za-notch-bar {
-  height: 12px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #1c1208;
+.zamanarts-scene .phone-notch {
+  background: #382416;
 }
-.za-notch-dot {
-  width: 32px;
-  height: 6px;
-  border-radius: 6px;
-  background: #000;
+.zamanarts-scene .mini-avatar {
+  background: #fef3c7;
+  color: #92400e;
 }
-.za-screen {
-  padding: 4px 6px;
+.zamanarts-scene .balance-label {
+  color: #8c6a49;
 }
-.za-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 2px 4px 5px;
-  border-bottom: 1px solid #451a03;
+.zamanarts-scene .balance {
+  color: #28180c;
 }
-.za-logo {
-  font-size: 7.5px;
-  font-weight: 750;
+.zamanarts-scene .balance > span {
+  color: #a27a53;
+}
+.zamanarts-scene .spend-ring {
+  border-color: #d97706;
+  border-right-color: #fed7aa;
+  border-bottom-color: #78350f;
+}
+.zamanarts-scene .spend-ring span {
+  color: #8c6a49;
+}
+.zamanarts-scene .spend-ring strong {
+  color: #451a03;
+}
+.zamanarts-scene .transaction i {
+  background: #fef3c7;
+  color: #b45309;
+}
+.zamanarts-scene .transaction span {
+  color: #28180c;
+}
+.zamanarts-scene .transaction small {
+  color: #8c6a49;
+}
+.zamanarts-scene .transaction b {
+  color: #78350f;
+}
+.zamanarts-scene .bank-card {
+  background: linear-gradient(135deg, #2a1608 0%, #43210d 100%);
   color: #fef3c7;
-  font-family: serif;
-  display: flex;
-  align-items: center;
-  gap: 3px;
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  box-shadow: 0 4px 12px rgba(67, 33, 13, 0.35);
 }
-.za-crest {
+.zamanarts-scene .bank-card strong {
+  color: #ffedd5;
+}
+.zamanarts-scene .bank-card small {
+  color: #fde68a;
+}
+.zamanarts-scene .bank-card b {
   color: #fbbf24;
 }
-.za-star-score {
-  font-size: 5.5px;
-  font-weight: 750;
-  color: #fbbf24;
-  background: rgba(217, 119, 6, 0.2);
-  padding: 1px 4px;
-  border-radius: 3px;
+.zamanarts-scene .phone-actions > span {
+  background: #fef3c7;
+  color: #92400e;
 }
-.za-video-hero {
-  margin-top: 5px;
-  height: 82px;
-  border-radius: 8px;
-  overflow: hidden;
-  position: relative;
-  background: linear-gradient(135deg, #78350f, #291003);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 6px;
+.zamanarts-scene .phone-actions small {
+  color: #8c6a49;
 }
-.za-wood-bg {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 30% 40%, rgba(217, 119, 6, 0.45), transparent 65%);
+.zamanarts-scene .phone-subtitle {
+  color: #28180c;
 }
-.za-play-ring {
-  position: absolute;
-  left: 50%;
-  top: 42%;
-  transform: translate(-50%, -50%);
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background: rgba(217, 119, 6, 0.9);
-  box-shadow: 0 0 14px rgba(217, 119, 6, 0.7);
-  display: grid;
-  place-items: center;
+.zamanarts-scene .phone-subtitle small {
+  color: #8c6a49;
 }
-.za-triangle {
-  font-size: 9px;
-  color: #fff;
-  margin-left: 2px;
+.zamanarts-scene .tiny-chart i {
+  background: #fed7aa;
 }
-.za-pulse-ring-1,
-.za-pulse-ring-2 {
-  position: absolute;
-  inset: -4px;
-  border: 1px solid rgba(251, 191, 36, 0.6);
-  border-radius: 50%;
-  animation: rip 2s infinite ease-out;
-}
-.za-pulse-ring-2 {
-  animation-delay: 1s;
-}
-.za-video-meta {
-  z-index: 2;
-  position: relative;
-}
-.za-hd-badge {
-  font-size: 4.5px;
-  font-weight: 750;
-  color: #fbbf24;
-  background: rgba(0, 0, 0, 0.65);
-  padding: 1px 4px;
-  border-radius: 2px;
-}
-.za-video-meta strong {
-  display: block;
-  font-size: 6px;
-  color: #fff;
-  margin-top: 2px;
-}
-.za-craft-card {
-  margin-top: 5px;
-  background: #271a0f;
-  border: 1px solid #451a03;
-  border-radius: 8px;
-  padding: 5px 6px;
-}
-.za-craft-badge-row {
-  display: flex;
-  justify-content: space-between;
-  font-size: 4.5px;
-  margin-bottom: 2px;
-}
-.za-heritage-tag {
-  color: #d97706;
-  font-weight: 750;
-  text-transform: uppercase;
-}
-.za-free-ship {
-  color: #a8a29e;
-}
-.za-craft-title {
-  font-size: 7.5px;
-  font-weight: 700;
-  color: #fff;
-  margin: 1px 0 4px;
-}
-.za-craft-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.za-price-val {
-  font-size: 8px;
-  font-weight: 750;
-  color: #fbbf24;
-  display: block;
-}
-.za-price-tax {
-  font-size: 4px;
-  color: #a8a29e;
-}
-.za-add-cta {
+.zamanarts-scene .tiny-chart i:nth-child(4) {
   background: #d97706;
-  border: none;
-  color: #fff;
-  font-size: 5.5px;
-  font-weight: 750;
-  padding: 3.5px 7px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.2s;
 }
-.za-add-cta.is-added {
-  background: #15803d;
+.zamanarts-scene .phone-nav {
+  border-top-color: #fed7aa;
+  color: #b45309;
 }
-.za-floating-seal {
-  position: absolute;
-  top: 50px;
-  right: 20px;
-  background: #ffffff;
-  border: 1px solid #d97706;
-  border-radius: 6px;
-  padding: 4px 8px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  box-shadow: 0 6px 16px rgba(217, 119, 6, 0.25);
-  z-index: 4;
-  pointer-events: none;
-}
-[data-theme="dark"] .za-floating-seal {
-  background: #241306;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
-}
-.za-seal-star {
+.zamanarts-scene .phone-nav span {
   color: #d97706;
-  font-size: 10px;
-}
-.za-floating-seal strong {
-  display: block;
-  font-size: 6.5px;
-  color: #0f172a;
-}
-[data-theme="dark"] .za-floating-seal strong {
-  color: #f1f5f9;
-}
-.za-floating-seal small {
-  display: block;
-  font-size: 5px;
-  color: #64748b;
 }
 
 /* ==========================================================================
-   4. AL-MIHRAB THUMBNAIL (The Celestial Sanctuary)
+   AL-MIHRAB THEME (Celestial Prayer Companion · Midnight Navy / Gold)
    ========================================================================== */
+.almihrab-scene .pocket-circle {
+  background: #cee0f2;
+}
+.almihrab-scene .scene-note {
+  color: #3b5b82;
+}
+.almihrab-scene .floating-spark {
+  color: #2563eb;
+}
+.almihrab-scene .phone {
+  background: #f9fbfd;
+  border-color: #10213b;
+  color: #0b1a30;
+  box-shadow: 4px 10px 18px rgba(16, 33, 59, 0.18);
+}
+.almihrab-scene .phone-notch {
+  background: #10213b;
+}
+.almihrab-scene .mini-avatar {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+.almihrab-scene .balance-label {
+  color: #527196;
+}
+.almihrab-scene .balance {
+  color: #0b1a30;
+}
+.almihrab-scene .balance > span {
+  color: #6482a6;
+}
+.almihrab-scene .spend-ring {
+  border-color: #3b82f6;
+  border-right-color: #dbeafe;
+  border-bottom-color: #d97706;
+}
+.almihrab-scene .spend-ring span {
+  color: #527196;
+}
+.almihrab-scene .spend-ring strong {
+  color: #0f172a;
+}
+.almihrab-scene .transaction i {
+  background: #dbeafe;
+  color: #1e40af;
+}
+.almihrab-scene .transaction span {
+  color: #0b1a30;
+}
+.almihrab-scene .transaction small {
+  color: #527196;
+}
+.almihrab-scene .transaction b {
+  color: #1e3a5f;
+}
+.almihrab-scene .bank-card {
+  background: linear-gradient(135deg, #09172e 0%, #152c50 100%);
+  color: #e0f2fe;
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  box-shadow: 0 4px 12px rgba(9, 23, 46, 0.35);
+}
+.almihrab-scene .bank-card strong {
+  color: #bae6fd;
+}
+.almihrab-scene .bank-card small {
+  color: #93c5fd;
+}
+.almihrab-scene .bank-card b {
+  color: #fbbf24;
+}
+.almihrab-scene .phone-actions > span {
+  background: #dbeafe;
+  color: #1e40af;
+}
+.almihrab-scene .phone-actions small {
+  color: #527196;
+}
+.almihrab-scene .phone-subtitle {
+  color: #0b1a30;
+}
+.almihrab-scene .phone-subtitle small {
+  color: #527196;
+}
+.almihrab-scene .tiny-chart i {
+  background: #bfdbfe;
+}
+.almihrab-scene .tiny-chart i:nth-child(4) {
+  background: #d97706;
+}
+.almihrab-scene .phone-nav {
+  border-top-color: #dbeafe;
+  color: #1d4ed8;
+}
+.almihrab-scene .phone-nav span {
+  color: #60a5fa;
+}
 
-.almihrab-scene {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  overflow: hidden;
-  pointer-events: auto;
+/* ==========================================================================
+   DARK THEME OVERRIDES FOR DUAL-PHONE MOBILE SCENES
+   ========================================================================== */
+[data-theme="dark"] .trendstream-scene .pocket-circle {
+  background: #2a1b52;
 }
-.am-stardust {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 50% 30%, rgba(233, 195, 73, 0.2) 0%, transparent 70%);
-  pointer-events: none;
+[data-theme="dark"] .trendstream-scene .scene-note {
+  color: #c4b5fd;
 }
-.am-phone {
-  position: absolute;
-  left: 50%;
-  top: 24px;
-  width: 182px;
-  height: 260px;
-  transform: translateX(-50%);
-  background: #0f131f;
-  border: 3.5px solid #1e2538;
-  border-radius: 28px;
-  box-shadow: 0 20px 40px -6px rgba(233, 195, 73, 0.25);
-  overflow: hidden;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  pointer-events: auto;
+[data-theme="dark"] .trendstream-scene .phone {
+  background: #120e29;
+  border-color: #433385;
+  color: #f5f3ff;
+  box-shadow: 4px 10px 20px rgba(0, 0, 0, 0.45);
 }
-.project-card:hover .am-phone,
-.case-header-mockup:hover .am-phone {
-  transform: translateX(-50%) translateY(-6px) scale(1.02);
+[data-theme="dark"] .trendstream-scene .phone-notch {
+  background: #433385;
 }
-.am-notch-bar {
-  height: 12px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #0f131f;
+[data-theme="dark"] .trendstream-scene .mini-avatar {
+  background: #2e1065;
+  color: #c4b5fd;
 }
-.am-notch-dot {
-  width: 32px;
-  height: 5px;
-  border-radius: 4px;
-  background: #171b28;
+[data-theme="dark"] .trendstream-scene .balance-label {
+  color: #a78bfa;
 }
-.am-screen {
-  padding: 4px 8px 8px;
-  background: #0f131f;
-  color: #dfe2f3;
+[data-theme="dark"] .trendstream-scene .balance {
+  color: #f5f3ff;
 }
-.am-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 4px;
+[data-theme="dark"] .trendstream-scene .balance > span {
+  color: #c4b5fd;
 }
-.am-loc {
-  display: flex;
-  flex-direction: column;
+[data-theme="dark"] .trendstream-scene .spend-ring span {
+  color: #a78bfa;
 }
-.am-compass {
-  font-size: 4px;
-  color: #e9c349;
-  letter-spacing: 0.5px;
-  font-weight: 750;
+[data-theme="dark"] .trendstream-scene .spend-ring strong {
+  color: #ede9fe;
 }
-.am-city {
-  font-size: 6px;
-  font-weight: 600;
+[data-theme="dark"] .trendstream-scene .phone-actions > span {
+  background: #2e1065;
+  color: #c4b5fd;
 }
-.am-streak-pill {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  background: rgba(233, 195, 73, 0.18);
-  border: 1px solid rgba(233, 195, 73, 0.35);
-  padding: 2px 5px;
-  border-radius: 10px;
-  font-size: 5px;
-  font-weight: 750;
-  color: #e9c349;
+[data-theme="dark"] .trendstream-scene .phone-actions small {
+  color: #c4b5fd;
 }
-.am-ring-stage {
-  display: flex;
-  justify-content: center;
-  margin: 4px 0;
+[data-theme="dark"] .trendstream-scene .transaction i {
+  background: #2e1065;
+  color: #c4b5fd;
 }
-.am-gauge-container {
-  width: 86px;
-  height: 86px;
-  position: relative;
-  display: grid;
-  place-items: center;
+[data-theme="dark"] .trendstream-scene .transaction span {
+  color: #f5f3ff;
 }
-.am-gauge-svg {
-  width: 100%;
-  height: 100%;
-  transform: rotate(-90deg);
+[data-theme="dark"] .trendstream-scene .transaction small {
+  color: #a78bfa;
 }
-.am-gauge-track {
-  fill: none;
-  stroke: #1b1f2c;
-  stroke-width: 6.5;
+[data-theme="dark"] .trendstream-scene .transaction b {
+  color: #ede9fe;
 }
-.am-gauge-val {
-  fill: none;
-  stroke: #e9c349;
-  stroke-width: 6.5;
-  stroke-linecap: round;
-  filter: drop-shadow(0 0 6px rgba(233, 195, 73, 0.6));
+[data-theme="dark"] .trendstream-scene .phone-subtitle {
+  color: #f5f3ff;
 }
-.am-gauge-content {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
+[data-theme="dark"] .trendstream-scene .phone-subtitle small {
+  color: #a78bfa;
 }
-.gauge-label {
-  font-size: 4px;
-  letter-spacing: 0.5px;
-  color: #908f9d;
+[data-theme="dark"] .trendstream-scene .tiny-chart i {
+  background: #3b1d7d;
 }
-.gauge-name {
-  font-size: 11px;
-  font-weight: 850;
-  color: #e9c349;
-  font-family: serif;
+[data-theme="dark"] .trendstream-scene .tiny-chart i:nth-child(4) {
+  background: #a855f7;
 }
-.gauge-countdown {
-  font-size: 4.5px;
-  color: #dfe2f3;
+
+[data-theme="dark"] .zamanarts-scene .pocket-circle {
+  background: #381f10;
 }
-.gauge-time {
-  font-size: 4px;
-  color: #908f9d;
+[data-theme="dark"] .zamanarts-scene .scene-note {
+  color: #fde68a;
 }
-.am-prayers-stack {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  margin-top: 4px;
+[data-theme="dark"] .zamanarts-scene .phone {
+  background: #170f09;
+  border-color: #5c3a21;
+  color: #fef3c7;
+  box-shadow: 4px 10px 20px rgba(0, 0, 0, 0.45);
 }
-.am-p-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 3px 6px;
-  border-radius: 4px;
-  background: #171b28;
-  font-size: 5px;
+[data-theme="dark"] .zamanarts-scene .phone-notch {
+  background: #5c3a21;
 }
-.am-p-row.done {
-  background: #131722;
+[data-theme="dark"] .zamanarts-scene .mini-avatar {
+  background: #451a03;
+  color: #fbbf24;
 }
-.am-p-row.current {
-  background: rgba(233, 195, 73, 0.12);
-  border: 1px solid rgba(233, 195, 73, 0.35);
+[data-theme="dark"] .zamanarts-scene .balance-label {
+  color: #d97706;
 }
-.p-check {
-  color: #e9c349;
-  font-weight: 750;
+[data-theme="dark"] .zamanarts-scene .balance {
+  color: #fef3c7;
 }
-.p-pulse {
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
+[data-theme="dark"] .zamanarts-scene .balance > span {
+  color: #fbbf24;
+}
+[data-theme="dark"] .zamanarts-scene .spend-ring span {
+  color: #d97706;
+}
+[data-theme="dark"] .zamanarts-scene .spend-ring strong {
+  color: #fef3c7;
+}
+[data-theme="dark"] .zamanarts-scene .phone-actions > span {
+  background: #451a03;
+  color: #fbbf24;
+}
+[data-theme="dark"] .zamanarts-scene .phone-actions small {
+  color: #fed7aa;
+}
+[data-theme="dark"] .zamanarts-scene .transaction i {
+  background: #451a03;
+  color: #fbbf24;
+}
+[data-theme="dark"] .zamanarts-scene .transaction span {
+  color: #fef3c7;
+}
+[data-theme="dark"] .zamanarts-scene .transaction small {
+  color: #fed7aa;
+}
+[data-theme="dark"] .zamanarts-scene .transaction b {
+  color: #fef3c7;
+}
+[data-theme="dark"] .zamanarts-scene .phone-subtitle {
+  color: #fef3c7;
+}
+[data-theme="dark"] .zamanarts-scene .phone-subtitle small {
+  color: #fed7aa;
+}
+[data-theme="dark"] .zamanarts-scene .tiny-chart i {
+  background: #451a03;
+}
+[data-theme="dark"] .zamanarts-scene .tiny-chart i:nth-child(4) {
   background: #f59e0b;
-  box-shadow: 0 0 4px #f59e0b;
 }
-.p-name {
-  font-weight: 650;
-  margin-left: 3px;
+
+[data-theme="dark"] .almihrab-scene .pocket-circle {
+  background: #14213d;
 }
-.p-badge {
-  font-size: 4px;
-  padding: 1px 3px;
-  border-radius: 2px;
-  margin-left: auto;
-  margin-right: 4px;
+[data-theme="dark"] .almihrab-scene .scene-note {
+  color: #93c5fd;
 }
-.p-badge.gold {
-  background: rgba(233, 195, 73, 0.18);
-  color: #e9c349;
+[data-theme="dark"] .almihrab-scene .phone {
+  background: #0b1424;
+  border-color: #1e3a68;
+  color: #eff6ff;
+  box-shadow: 4px 10px 20px rgba(0, 0, 0, 0.45);
 }
-.p-badge.amber {
-  background: rgba(245, 158, 11, 0.18);
-  color: #f59e0b;
+[data-theme="dark"] .almihrab-scene .phone-notch {
+  background: #1e3a68;
 }
-.p-time {
-  color: #908f9d;
+[data-theme="dark"] .almihrab-scene .mini-avatar {
+  background: #172554;
+  color: #93c5fd;
 }
-.am-floating-toast {
-  position: absolute;
-  bottom: 12px;
-  left: 18px;
-  background: #0f131f;
-  border: 1px solid rgba(233, 195, 73, 0.5);
-  border-radius: 6px;
-  padding: 5px 9px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
-  z-index: 4;
-  pointer-events: none;
+[data-theme="dark"] .almihrab-scene .balance-label {
+  color: #93c5fd;
 }
-.am-star {
-  color: #e9c349;
-  font-size: 10px;
+[data-theme="dark"] .almihrab-scene .balance {
+  color: #eff6ff;
 }
-.am-floating-toast strong {
-  display: block;
-  font-size: 6px;
-  color: #e9c349;
-  font-family: serif;
+[data-theme="dark"] .almihrab-scene .balance > span {
+  color: #bfdbfe;
 }
-.am-floating-toast small {
-  display: block;
-  font-size: 4.5px;
-  color: #908f9d;
+[data-theme="dark"] .almihrab-scene .spend-ring span {
+  color: #93c5fd;
+}
+[data-theme="dark"] .almihrab-scene .spend-ring strong {
+  color: #f8fafc;
+}
+[data-theme="dark"] .almihrab-scene .phone-actions > span {
+  background: #172554;
+  color: #93c5fd;
+}
+[data-theme="dark"] .almihrab-scene .phone-actions small {
+  color: #bfdbfe;
+}
+[data-theme="dark"] .almihrab-scene .transaction i {
+  background: #172554;
+  color: #93c5fd;
+}
+[data-theme="dark"] .almihrab-scene .transaction span {
+  color: #eff6ff;
+}
+[data-theme="dark"] .almihrab-scene .transaction small {
+  color: #bfdbfe;
+}
+[data-theme="dark"] .almihrab-scene .transaction b {
+  color: #f8fafc;
+}
+[data-theme="dark"] .almihrab-scene .phone-subtitle {
+  color: #eff6ff;
+}
+[data-theme="dark"] .almihrab-scene .phone-subtitle small {
+  color: #bfdbfe;
+}
+[data-theme="dark"] .almihrab-scene .tiny-chart i {
+  background: #1e293b;
+}
+[data-theme="dark"] .almihrab-scene .tiny-chart i:nth-child(4) {
+  background: #f59e0b;
+}
+
+/* ==========================================================================
+   CASE HEADER MOCKUP (Project Detail Page top-right preview)
+   ========================================================================== */
+.case-header-mockup .pocket-scene {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.case-header-mockup .pocket-circle {
+  top: 35px;
+  left: 95px;
+  width: 215px;
+  height: 215px;
+}
+.case-header-mockup .scene-note {
+  left: 16px;
+  top: 45px;
+}
+.case-header-mockup .phone {
+  scale: 0.86;
+  transform-origin: top center;
+}
+.case-header-mockup .phone-back {
+  top: 55px;
+  left: 75px;
+}
+.case-header-mockup .phone-front {
+  top: 28px;
+  left: 172px;
 }
 
 /* ==========================================================================
@@ -6009,45 +5800,209 @@ dialog::backdrop {
 }
 
 /* ==========================================================================
-   RESPONSIVE ADJUSTMENTS
+   COMPREHENSIVE ADAPTIVE & RESPONSIVE SYSTEM
+   Guarantees pixel-perfect presentation across Phones, Tablets, and Desktops.
    ========================================================================== */
 
-@media (max-width: 900px) {
+/* 1. Large Tablets & Small Laptops (<= 1024px) */
+@media (max-width: 1024px) {
+  .project-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+  .project-cover {
+    height: 260px;
+  }
+  .hms-window {
+    width: 350px;
+    height: 205px;
+    left: 16px;
+    top: 36px;
+    transform: rotate(-2.5deg) scale(0.94);
+    transform-origin: top left;
+  }
+  .phone {
+    scale: 0.92;
+    transform-origin: top center;
+  }
+  .phone-back {
+    left: 50px;
+    top: 68px;
+  }
+  .phone-front {
+    left: 140px;
+    top: 40px;
+  }
+  .pocket-circle {
+    left: 45px;
+    top: 50px;
+    width: 220px;
+    height: 220px;
+  }
+}
+
+/* 2. Portrait Tablets & Foldables (<= 850px) */
+@media (max-width: 850px) {
   .case-title-row {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
+    gap: 20px;
   }
   .case-title-right {
     width: 100%;
     max-width: 100%;
   }
+  .case-header-mockup {
+    height: 250px;
+    width: 100%;
+    margin-top: 10px;
+  }
+  .case-header-mockup .pocket-circle {
+    top: 25px;
+    left: calc(50% - 105px);
+    width: 210px;
+    height: 210px;
+  }
+  .case-header-mockup .scene-note {
+    left: 20px;
+    top: 30px;
+    font-size: 8.5px;
+  }
+  .case-header-mockup .phone {
+    scale: 0.85;
+    transform-origin: top center;
+  }
+  .case-header-mockup .phone-back {
+    top: 45px;
+    left: calc(50% - 75px);
+  }
+  .case-header-mockup .phone-front {
+    top: 22px;
+    left: calc(50% + 15px);
+  }
+  .case-header-mockup .hms-window {
+    scale: 0.82;
+    transform-origin: top center;
+    left: 50%;
+    transform: translateX(-50%) rotate(-2deg);
+    top: 24px;
+  }
+  .case-title-left h1 {
+    font-size: clamp(38px, 9vw, 56px);
+    letter-spacing: -2px;
+    word-break: break-word;
+    line-height: 1.15;
+  }
   .mockup-desktop-card {
     width: 320px;
   }
   .mockup-mobile-card {
-    width: 190px;
+    width: 185px;
   }
 }
+
+/* 3. Small Tablets & Large Phones (<= 640px) */
 @media (max-width: 640px) {
-  .case-title-left h1 {
-    font-size: 52px;
-    letter-spacing: -2px;
+  .project-grid {
+    grid-template-columns: 1fr;
+    max-width: 480px;
+    margin-inline: auto;
+    gap: 22px;
+  }
+  .project-cover {
+    height: 275px;
+  }
+  .hms-window {
+    width: 330px;
+    height: 198px;
+    left: calc(50% - 165px);
+    top: 36px;
+    transform: rotate(-1.5deg);
+  }
+  .phone {
+    scale: 0.94;
+    transform-origin: top center;
+  }
+  .phone-back {
+    left: calc(50% - 75px);
+    top: 68px;
+  }
+  .phone-front {
+    left: calc(50% + 15px);
+    top: 40px;
+  }
+  .pocket-circle {
+    left: calc(50% - 110px);
+    top: 52px;
+    width: 220px;
+    height: 220px;
+  }
+  .scene-note {
+    left: 18px;
+    top: 60px;
+    font-size: 8.5px;
+  }
+  .floating-spark {
+    left: 24px;
+    bottom: 14px;
+    font-size: 32px;
+  }
+  .filter-tabs {
+    display: flex;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    gap: 6px;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+  .filter-tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .filter-tabs button {
+    flex-shrink: 0;
+    white-space: nowrap;
+    padding: 7px 12px;
+    font-size: 11px;
+    border-radius: 6px;
+  }
+  .gallery-header-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .gallery-controls-right {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
   .gallery-main-title {
-    font-size: 26px;
+    font-size: 28px;
   }
   .mockup-desktop-card {
     width: 270px;
   }
   .mockup-mobile-card {
-    width: 170px;
+    width: 165px;
+  }
+  .case-meta {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .contact-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .contact-panel {
+    padding: 24px 18px 28px;
   }
   .lightbox-card {
     padding: 14px;
     height: 94vh;
   }
   .lightbox-full-img {
-    max-height: 50vh;
+    max-height: 52vh;
   }
   .lightbox-arrow {
     width: 36px;
@@ -6058,5 +6013,209 @@ dialog::backdrop {
   }
   .lightbox-arrow.right-arrow {
     right: 6px;
+  }
+}
+
+/* 4. Standard Mobile Phones (<= 480px) */
+@media (max-width: 480px) {
+  .page-width,
+  .site-header-inner {
+    width: calc(100% - 36px);
+  }
+  .hero-name {
+    font-size: clamp(34px, 10vw, 44px);
+    letter-spacing: -2px;
+  }
+  .hero-tagline {
+    font-size: 20px;
+    letter-spacing: -0.6px;
+  }
+  .hero-art {
+    height: 340px;
+    max-width: 100%;
+  }
+  .code-window {
+    top: 90px;
+    width: 94%;
+    left: 3%;
+  }
+  .code-body {
+    font-size: 10.5px;
+    line-height: 2.1;
+  }
+  .project-cover {
+    height: 265px;
+  }
+  .hms-window {
+    width: 300px;
+    height: 188px;
+    left: calc(50% - 150px);
+    top: 36px;
+  }
+  .hms-kpi-row {
+    padding: 6px 8px;
+    gap: 5px;
+  }
+  .hms-kpi-val {
+    font-size: 11.5px;
+  }
+  .hms-middle-row {
+    gap: 5px;
+  }
+  .phone {
+    scale: 0.88;
+  }
+  .phone-back {
+    left: calc(50% - 72px);
+    top: 64px;
+  }
+  .phone-front {
+    left: calc(50% + 12px);
+    top: 38px;
+  }
+  .pocket-circle {
+    left: calc(50% - 100px);
+    top: 48px;
+    width: 200px;
+    height: 200px;
+  }
+  .scene-note {
+    left: 12px;
+    top: 54px;
+    font-size: 8px;
+  }
+  .floating-spark {
+    left: 18px;
+    bottom: 12px;
+    font-size: 28px;
+  }
+  .case-title-left h1 {
+    font-size: 36px;
+    letter-spacing: -1.5px;
+  }
+  .case-header-mockup {
+    height: 220px;
+  }
+  .case-header-mockup .phone {
+    scale: 0.75;
+  }
+  .case-header-mockup .phone-back {
+    top: 36px;
+    left: calc(50% - 68px);
+  }
+  .case-header-mockup .phone-front {
+    top: 15px;
+    left: calc(50% + 10px);
+  }
+  .case-header-mockup .pocket-circle {
+    width: 175px;
+    height: 175px;
+    top: 20px;
+    left: calc(50% - 87px);
+  }
+  .case-header-mockup .hms-window {
+    width: 290px;
+    left: calc(50% - 145px);
+    scale: 0.74;
+    top: 16px;
+  }
+  .case-header-mockup .scene-note {
+    left: 10px;
+    top: 24px;
+    font-size: 7.5px;
+  }
+  .mockup-desktop-card {
+    width: 240px;
+  }
+  .mockup-mobile-card {
+    width: 150px;
+  }
+  .motion-toggle {
+    bottom: 12px;
+    left: 12px;
+    font-size: 9px;
+    padding: 5px 9px;
+  }
+  .scroll-top-button {
+    bottom: 12px;
+    right: 12px;
+    width: 38px;
+    height: 38px;
+  }
+}
+
+/* 5. Compact & Narrow Phones (<= 380px) */
+@media (max-width: 380px) {
+  .page-width,
+  .site-header-inner {
+    width: calc(100% - 28px);
+  }
+  .hero-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .hero-buttons .button {
+    justify-content: center;
+  }
+  .project-cover {
+    height: 250px;
+  }
+  .hms-window {
+    width: 275px;
+    height: 175px;
+    left: calc(50% - 137px);
+    top: 32px;
+    transform: rotate(-1deg);
+  }
+  .phone {
+    scale: 0.8;
+  }
+  .phone-back {
+    left: calc(50% - 66px);
+    top: 58px;
+  }
+  .phone-front {
+    left: calc(50% + 8px);
+    top: 34px;
+  }
+  .pocket-circle {
+    left: calc(50% - 88px);
+    top: 42px;
+    width: 176px;
+    height: 176px;
+  }
+  .scene-note {
+    left: 8px;
+    top: 46px;
+    font-size: 7px;
+  }
+  .floating-spark {
+    left: 12px;
+    bottom: 10px;
+    font-size: 24px;
+  }
+  .case-title-left h1 {
+    font-size: 30px;
+    letter-spacing: -1.2px;
+  }
+  .case-header-mockup {
+    height: 205px;
+  }
+  .case-header-mockup .phone {
+    scale: 0.68;
+  }
+  .case-header-mockup .phone-back {
+    top: 30px;
+    left: calc(50% - 62px);
+  }
+  .case-header-mockup .phone-front {
+    top: 12px;
+    left: calc(50% + 6px);
+  }
+  .case-header-mockup .hms-window {
+    width: 260px;
+    left: calc(50% - 130px);
+    scale: 0.68;
+    top: 12px;
   }
 }

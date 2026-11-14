@@ -1,12 +1,9 @@
-import { useState } from "react";
 import type { Project } from "../data/projects";
 
 // ============================================================================
-// 1. SAAS HMS THUMBNAIL (Clinical Command Center)
+// 1. SAAS HMS THUMBNAIL (Clinical Command Center Desktop)
 // ============================================================================
 export function SaasHmsThumbnail({ variant = 0 }: { variant?: number }) {
-  const [activeBed, setActiveBed] = useState<number>(1);
-
   const beds = [
     { id: 1, label: "ICU-1", status: "occupied", tag: "P-401" },
     { id: 2, label: "ICU-2", status: "free", tag: "Ready" },
@@ -91,20 +88,11 @@ export function SaasHmsThumbnail({ variant = 0 }: { variant?: number }) {
               </div>
               <div className="bed-pills-grid">
                 {beds.map((b) => (
-                  <button
-                    type="button"
-                    key={b.id}
-                    className={`bed-pill ${b.status} ${activeBed === b.id ? "active" : ""}`}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      setActiveBed(b.id);
-                    }}
-                  >
+                  <div key={b.id} className={`bed-pill ${b.status}`}>
                     <span className="bed-dot" />
                     <span className="bed-id">{b.label}</span>
                     <span className="bed-tag">{b.tag}</span>
-                  </button>
+                  </div>
                 ))}
               </div>
             </div>
@@ -132,293 +120,289 @@ export function SaasHmsThumbnail({ variant = 0 }: { variant?: number }) {
 }
 
 // ============================================================================
-// 2. TRENDSTREAM THUMBNAIL (TikTok-style Video E-Commerce)
+// 2. TRENDSTREAM THUMBNAIL (Live Video E-Commerce Dual Phone)
 // ============================================================================
 export function TrendStreamThumbnail({ variant = 0 }: { variant?: number }) {
-  const [liked, setLiked] = useState(false);
-  const [likeCount, setLikeCount] = useState(14820);
-
-  const handleLike = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (liked) {
-      setLiked(false);
-      setLikeCount((c) => c - 1);
-    } else {
-      setLiked(true);
-      setLikeCount((c) => c + 1);
-    }
-  };
+  const chartBars = [40, 75, 52, 95, 62, 85, 48];
+  const items = [
+    { code: "K", name: "Summer Kurta", sub: "Linen Kurta · Size M", val: "PKR 3,400" },
+    { code: "S", name: "Silk Dupatta", sub: "Emerald Green", val: "PKR 2,300" },
+    { code: "D", name: "Express Drop", sub: "Tracked Courier", val: "Free" },
+  ];
 
   return (
-    <div className={`product-scene trendstream-scene variant-${variant}`}>
-      <div className="ts-aura" />
+    <div className={`product-scene pocket-scene trendstream-scene variant-${variant}`}>
+      <div className="pocket-circle" />
+      <span className="scene-note">
+        Live video drops.
+        <br />
+        Instant checkout.
+      </span>
 
-      {/* Primary Phone Mockup */}
-      <div className="ts-phone">
-        {/* Dynamic Island Notch */}
-        <div className="ts-island-bar">
-          <div className="ts-island">
-            <span className="ts-camera" />
-          </div>
+      {/* Back Phone: Order Summary & Cart Progress */}
+      <div className="phone phone-back">
+        <div className="phone-notch" />
+        <div className="phone-top">
+          Order summary <span>↗</span>
         </div>
-
-        {/* Video Canvas Stage */}
-        <div className="ts-screen">
-          {/* Animated Ambient Video Backdrop */}
-          <div className="ts-video-bg">
-            <div className="ts-gradient-mesh" />
-            <div className="ts-shimmer" />
+        <div className="spend-ring">
+          <span>
+            Cart Total
+            <strong>PKR 5,700</strong>
+          </span>
+        </div>
+        <div className="phone-subtitle">Active order</div>
+        {items.map((item) => (
+          <div className="transaction" key={item.name}>
+            <i>{item.code}</i>
+            <span>
+              {item.name}
+              <small>{item.sub}</small>
+            </span>
+            <b>{item.val}</b>
           </div>
+        ))}
+      </div>
 
-          {/* Top Live Pill & Categories */}
-          <div className="ts-top-overlay">
-            <div className="ts-live-tag">
-              <span className="ts-red-dot" />
-              <span>LIVE HLS</span>
-            </div>
-            <div className="ts-cat-pills">
-              <span className="cat active">Trending</span>
-              <span className="cat">Men</span>
-              <span className="cat">Women</span>
-            </div>
-          </div>
-
-          {/* Right Action Bar */}
-          <div className="ts-sidebar-actions">
-            <button
-              type="button"
-              className={`ts-action-pill ${liked ? "liked" : ""}`}
-              onClick={handleLike}
-              aria-label="Like product video"
-            >
-              <span className="heart-icon">♥</span>
-              <span className="action-num">{likeCount.toLocaleString()}</span>
-              {liked && <span className="heart-particle">♥</span>}
-            </button>
-            <div className="ts-action-pill">
-              <span className="chat-icon">💬</span>
-              <span className="action-num">1.2k</span>
-            </div>
-            <div className="ts-vinyl">
-              <span className="vinyl-groove">♫</span>
-            </div>
-          </div>
-
-          {/* Bottom In-Video Product Overlay */}
-          <div className="ts-product-overlay">
-            {/* Audio Waveform */}
-            <div className="ts-sound-bars">
-              <i style={{ height: "40%" }} />
-              <i style={{ height: "90%" }} />
-              <i style={{ height: "60%" }} />
-              <i style={{ height: "100%" }} />
-              <i style={{ height: "50%" }} />
-            </div>
-
-            {/* Product Card */}
-            <div className="ts-card">
-              <div className="ts-card-left">
-                <span className="ts-in-video">In this video</span>
-                <h4>Embroidered Summer Kurta</h4>
-                <div className="ts-pricing">
-                  <strong>PKR 3,400</strong>
-                  <span className="ts-discount">-29%</span>
-                </div>
-              </div>
-              <button
-                type="button"
-                className="ts-cart-cta"
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                }}
-              >
-                <span>Bag</span>
-                <span>＋</span>
-              </button>
-            </div>
-          </div>
+      {/* Front Phone: Main App Interface & Video Pass */}
+      <div className="phone phone-front">
+        <div className="phone-notch" />
+        <div className="phone-top">
+          Hello, Fahd <span className="mini-avatar">f.</span>
+        </div>
+        <div className="balance-label">Live drop bag</div>
+        <div className="balance">
+          PKR 3,400<span>.00</span>
+        </div>
+        <div className="bank-card">
+          <span>trendstream.</span>
+          <svg className="bank-card-icon" viewBox="0 0 24 24" fill="currentColor">
+            <polygon points="6 4 20 12 6 20 6 4" />
+          </svg>
+          <strong>•••• &nbsp; •••• &nbsp; •••• &nbsp; 8824</strong>
+          <small>
+            LIVE PASS VIP <b>HLS 4K</b>
+          </small>
+        </div>
+        <div className="phone-actions">
+          <span>
+            🛍<small>Shop drops</small>
+          </span>
+          <span>
+            ▶<small>Watch Live</small>
+          </span>
+          <span>
+            ⚡<small>Flash Sale</small>
+          </span>
+        </div>
+        <div className="phone-subtitle">
+          Engagement <small>14.8k views</small>
+        </div>
+        <div className="tiny-chart">
+          {chartBars.map((n, i) => (
+            <i key={i} style={{ height: `${n}%` }} />
+          ))}
+        </div>
+        <div className="phone-nav">
+          <span>⌂</span> <span>▶</span> <span>🛍</span> <span>○</span>
         </div>
       </div>
 
-      {/* Floating Speed Chip */}
-      <div className="ts-floating-chip">
-        <span className="lightning">⚡</span>
-        <div>
-          <strong>&lt;250ms Preload</strong>
-          <small>HLS 1080p · 60 FPS Fluid</small>
-        </div>
-      </div>
+      <div className="floating-spark">✳</div>
     </div>
   );
 }
 
 // ============================================================================
-// 3. ZAMAN ARTS THUMBNAIL (Artisan Crafts & Video Commerce)
+// 3. ZAMAN ARTS THUMBNAIL (Artisan Crafts & 4K Video Dual Phone)
 // ============================================================================
 export function ZamanArtsThumbnail({ variant = 0 }: { variant?: number }) {
-  const [inCart, setInCart] = useState(false);
+  const chartBars = [45, 60, 52, 92, 70, 82, 64];
+  const items = [
+    { code: "C", name: "Thuluth Panel", sub: "Teak & Brass Inlay", val: "PKR 14,500" },
+    { code: "W", name: "Carved Stand", sub: "Pure Acre Walnut", val: "PKR 6,200" },
+    { code: "L", name: "Brass Lantern", sub: "Hand-forged Arabesque", val: "PKR 4,800" },
+  ];
 
   return (
-    <div className={`product-scene zamanarts-scene variant-${variant}`}>
-      <div className="za-warm-aura" />
+    <div className={`product-scene pocket-scene zamanarts-scene variant-${variant}`}>
+      <div className="pocket-circle" />
+      <span className="scene-note">
+        Bespoke crafts,
+        <br />
+        brought to life.
+      </span>
 
-      {/* Smartphone Frame */}
-      <div className="za-phone">
-        {/* Notch */}
-        <div className="za-notch-bar">
-          <div className="za-notch-dot" />
+      {/* Back Phone: Workshop Score & Heritage Pieces */}
+      <div className="phone phone-back">
+        <div className="phone-notch" />
+        <div className="phone-top">
+          Artisan workshop <span>↗</span>
         </div>
-
-        {/* Screen */}
-        <div className="za-screen">
-          {/* Header */}
-          <div className="za-header">
-            <span className="za-logo">
-              <span className="za-crest">🏛</span> Zaman Arts
+        <div className="spend-ring">
+          <span>
+            Artisan Rating
+            <strong>5.0 ★</strong>
+          </span>
+        </div>
+        <div className="phone-subtitle">Recent creations</div>
+        {items.map((item) => (
+          <div className="transaction" key={item.name}>
+            <i>{item.code}</i>
+            <span>
+              {item.name}
+              <small>{item.sub}</small>
             </span>
-            <span className="za-star-score">5.0 ★</span>
+            <b>{item.val}</b>
           </div>
+        ))}
+      </div>
 
-          {/* Video Demonstration Card */}
-          <div className="za-video-hero">
-            <div className="za-wood-bg" />
-            <div className="za-play-ring">
-              <span className="za-triangle">▶</span>
-              <span className="za-pulse-ring-1" />
-              <span className="za-pulse-ring-2" />
-            </div>
-            <div className="za-video-meta">
-              <span className="za-hd-badge">4K Chewie Player</span>
-              <strong>Hand-Carving Walnut Calligraphy</strong>
-            </div>
-          </div>
-
-          {/* Featured Craft Product Card */}
-          <div className="za-craft-card">
-            <div className="za-craft-badge-row">
-              <span className="za-heritage-tag">Artisan Heritage</span>
-              <span className="za-free-ship">Free Shipping</span>
-            </div>
-            <h4 className="za-craft-title">Bespoke Thuluth Wall Panel</h4>
-            <div className="za-craft-bottom">
-              <div className="za-price-box">
-                <span className="za-price-val">PKR 7,500</span>
-                <small className="za-price-tax">Handcrafted to order</small>
-              </div>
-              <button
-                type="button"
-                className={`za-add-cta ${inCart ? "is-added" : ""}`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setInCart(!inCart);
-                }}
-              >
-                {inCart ? "In Bag ✓" : "Add to Cart ＋"}
-              </button>
-            </div>
-          </div>
+      {/* Front Phone: Zaman Studio Showcase & Bespoke Card */}
+      <div className="phone phone-front">
+        <div className="phone-notch" />
+        <div className="phone-top">
+          Zaman Studio <span className="mini-avatar">🏛</span>
+        </div>
+        <div className="balance-label">Artisan showcase</div>
+        <div className="balance">
+          PKR 14,500<span>.00</span>
+        </div>
+        <div className="bank-card">
+          <span>zaman arts.</span>
+          <svg
+            className="bank-card-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+          >
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+          </svg>
+          <strong>•••• &nbsp; •••• &nbsp; •••• &nbsp; 1984</strong>
+          <small>
+            MASTER CRAFT <b>4K CHEWIE</b>
+          </small>
+        </div>
+        <div className="phone-actions">
+          <span>
+            ✦<small>Bespoke</small>
+          </span>
+          <span>
+            ▶<small>Watch 4K</small>
+          </span>
+          <span>
+            💬<small>Inquire</small>
+          </span>
+        </div>
+        <div className="phone-subtitle">
+          Handcraft rhythm <small>100% Handcrafted</small>
+        </div>
+        <div className="tiny-chart">
+          {chartBars.map((n, i) => (
+            <i key={i} style={{ height: `${n}%` }} />
+          ))}
+        </div>
+        <div className="phone-nav">
+          <span>⌂</span> <span>✦</span> <span>◈</span> <span>♡</span>
         </div>
       </div>
 
-      {/* Floating Artisan Seal */}
-      <div className="za-floating-seal">
-        <span className="za-seal-star">✦</span>
-        <div>
-          <strong>100% Certified Handcrafted</strong>
-          <small>Dual-Tier Cache · &lt;180ms Latency</small>
-        </div>
-      </div>
+      <div className="floating-spark">✳</div>
     </div>
   );
 }
 
 // ============================================================================
-// 4. AL-MIHRAB THUMBNAIL (The Celestial Sanctuary)
+// 4. AL-MIHRAB THUMBNAIL (Celestial Prayer Companion Dual Phone)
 // ============================================================================
 export function AlMihrabThumbnail({ variant = 0 }: { variant?: number }) {
+  const chartBars = [50, 72, 85, 100, 78, 92, 82];
+  const items = [
+    { code: "F", name: "Fajr Prayer", sub: "Jama'ah at Masjid", val: "05:12 AM" },
+    { code: "D", name: "Dhuhr Prayer", sub: "Completed on time", val: "12:30 PM" },
+    { code: "A", name: "Asr Prayer", sub: "Next up in 24m", val: "04:15 PM" },
+  ];
+
   return (
-    <div className={`product-scene almihrab-scene variant-${variant}`}>
-      <div className="am-stardust" />
+    <div className={`product-scene pocket-scene almihrab-scene variant-${variant}`}>
+      <div className="pocket-circle" />
+      <span className="scene-note">
+        Peace and presence
+        <br />
+        in every prayer.
+      </span>
 
-      {/* Smartphone Frame */}
-      <div className="am-phone">
-        {/* Notch */}
-        <div className="am-notch-bar">
-          <div className="am-notch-dot" />
+      {/* Back Phone: Daily Prayers Log & Habit Ring */}
+      <div className="phone phone-back">
+        <div className="phone-notch" />
+        <div className="phone-top">
+          Daily prayers <span>↗</span>
         </div>
-
-        {/* Midnight Sanctuary Canvas */}
-        <div className="am-screen">
-          {/* Top Status */}
-          <div className="am-header">
-            <div className="am-loc">
-              <span className="am-compass">📍 284° NW</span>
-              <span className="am-city">Lahore, Pakistan</span>
-            </div>
-            <div className="am-streak-pill">
-              <span className="flame">🔥</span>
-              <span>24 DAYS</span>
-            </div>
+        <div className="spend-ring">
+          <span>
+            Habits Today
+            <strong>4 / 5 Done</strong>
+          </span>
+        </div>
+        <div className="phone-subtitle">Today's journal</div>
+        {items.map((item) => (
+          <div className="transaction" key={item.name}>
+            <i>{item.code}</i>
+            <span>
+              {item.name}
+              <small>{item.sub}</small>
+            </span>
+            <b>{item.val}</b>
           </div>
+        ))}
+      </div>
 
-          {/* Central Glowing Golden Prayer Progress Ring */}
-          <div className="am-ring-stage">
-            <div className="am-gauge-container">
-              <svg className="am-gauge-svg" viewBox="0 0 120 120">
-                <circle cx="60" cy="60" r="48" className="am-gauge-track" />
-                <circle
-                  cx="60"
-                  cy="60"
-                  r="48"
-                  className="am-gauge-val"
-                  strokeDasharray="301.6"
-                  strokeDashoffset="100"
-                />
-              </svg>
-              <div className="am-gauge-content">
-                <span className="gauge-label">NEXT PRAYER</span>
-                <strong className="gauge-name">ASR</strong>
-                <span className="gauge-countdown">01h 24m remaining</span>
-                <span className="gauge-time">04:15 PM</span>
-              </div>
-            </div>
-          </div>
-
-          {/* 3 Prominent Daily Prayer Status Rows */}
-          <div className="am-prayers-stack">
-            <div className="am-p-row done">
-              <span className="p-check">✓</span>
-              <span className="p-name">Fajr</span>
-              <span className="p-badge gold">On Time</span>
-              <span className="p-time">05:12 AM</span>
-            </div>
-            <div className="am-p-row done">
-              <span className="p-check">👥</span>
-              <span className="p-name">Dhuhr</span>
-              <span className="p-badge gold">In Jama'ah</span>
-              <span className="p-time">12:30 PM</span>
-            </div>
-            <div className="am-p-row current">
-              <span className="p-pulse" />
-              <span className="p-name">Asr</span>
-              <span className="p-badge amber">Next Up</span>
-              <span className="p-time">04:15 PM</span>
-            </div>
-          </div>
+      {/* Front Phone: Celestial Prayer Countdown & Qibla Compass */}
+      <div className="phone phone-front">
+        <div className="phone-notch" />
+        <div className="phone-top">
+          Al-Mihrab <span className="mini-avatar">۞</span>
+        </div>
+        <div className="balance-label">Next prayer: Asr</div>
+        <div className="balance">
+          04:15<span> PM</span>
+        </div>
+        <div className="bank-card">
+          <span>al-mihrab.</span>
+          <svg className="bank-card-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.77A9.038 9.038 0 0 0 12 3Z" />
+          </svg>
+          <strong>284° NW &nbsp;•&nbsp; QIBLA COMPASS</strong>
+          <small>
+            LAHORE, PAKISTAN <b>HIJRI 1447</b>
+          </small>
+        </div>
+        <div className="phone-actions">
+          <span>
+            ۞<small>Check-in</small>
+          </span>
+          <span>
+            🧭<small>Qibla</small>
+          </span>
+          <span>
+            📖<small>Quran</small>
+          </span>
+        </div>
+        <div className="phone-subtitle">
+          Weekly streak <small>24 Days 🔥</small>
+        </div>
+        <div className="tiny-chart">
+          {chartBars.map((n, i) => (
+            <i key={i} style={{ height: `${n}%` }} />
+          ))}
+        </div>
+        <div className="phone-nav">
+          <span>⌂</span> <span>۞</span> <span>☪</span> <span>⚙</span>
         </div>
       </div>
 
-      {/* Floating Verse Toast */}
-      <div className="am-floating-toast">
-        <span className="am-star">۞</span>
-        <div>
-          <strong>"Prayer is decreed at specified times."</strong>
-          <small>Surah An-Nisa 4:103 · 98.4% Consistency</small>
-        </div>
-      </div>
+      <div className="floating-spark">✳</div>
     </div>
   );
 }
