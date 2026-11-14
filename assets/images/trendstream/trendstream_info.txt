@@ -1,0 +1,10 @@
+TrendStream
+Flutter, Dart, Dio, Firebase, JWT, HLS
+An e-commerce mobile app with a TikTok-style vertical video feed and a separate desktop admin
+dashboard for full platform management.
+I eliminated static shopping friction by creating a dynamic, video-first discovery interface with
+smart pre-loading and local caching for a lag-free experience.
+Flutter (Provider) for the frontend, and integrated a REST API using Dio with automated JWT refresh,
+Firebase for real-time notifications, and HLS streaming to adapt to varying internet speeds.
+I mastered complex state management, synchronized cross-platform data handling, and optimized
+high-bandwidth media delivery for mobile performance.

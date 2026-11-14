@@ -1,0 +1,108 @@
+================================================================================
+          HOSPITAL MANAGEMENT SYSTEM (HMS) - SIMPLE CLIENT GUIDE
+================================================================================
+A quick, plain-language guide explaining what this software does and how it 
+helps your hospital or clinic run smoothly.
+================================================================================
+
+
+1. WHAT IS THIS SOFTWARE?
+--------------------------------------------------------------------------------
+This is an all-in-one digital system for clinics and hospitals. It replaces paper 
+files, registers, and spreadsheets with a single, easy-to-use software that runs 
+on computers and tablets.
+
+Everything connects in real time: from the front desk to the doctor's room, 
+inpatient beds, pharmacy, lab, and finance office.
+
+
+2. WHO IS IT FOR?
+--------------------------------------------------------------------------------
+* Private Medical Clinics & Polyclinics
+* Hospitals (Small, Medium, and Large)
+* Diagnostic Labs & Pathology Centers
+* Hospital & Retail Pharmacies
+* Healthcare Chains with Multiple Branches
+
+
+3. MAIN FEATURES AT A GLANCE
+--------------------------------------------------------------------------------
+
+[1] RECEPTION & FRONT DESK
+* Instant Patient Search: Find any returning patient in seconds by name, phone, 
+  or CNIC/ID number.
+* 1-Click Registration: Register new patients quickly without long paperwork.
+* Token & Queue System: Issue printed tokens for walk-ins, OPD consultations, 
+  and appointments.
+* Emergency Fast-Track: Instantly register critical patients with zero delays.
+
+[2] DOCTOR DASHBOARD & CLINICAL WORKSPACE
+* Live Waiting List: Doctors see waiting patients in real time and call them in.
+* Fast Digital Prescriptions: Pick medicines from the pharmacy list, set dosage 
+  (e.g., 1 tablet after meals), and print a neat branded prescription.
+* Medical Notes & Vitals: Record Blood Pressure, Pulse, Sugar, complaints, and 
+  diagnoses.
+* Order Tests & Referrals: Order lab tests or refer to another doctor with one click.
+
+[3] PATIENT MEDICAL HISTORY (EMR)
+* Lifetime Medical Record: Every patient has a permanent digital file.
+* Full History in 1 Place: View all past doctor visits, prescriptions, test 
+  results, and bills on one clean timeline.
+* Allergy Alerts: Clear warnings for drug allergies and high-risk health conditions.
+
+[4] ROOM & BED MANAGEMENT (INPATIENT / IPD)
+* Visual Live Bed Map: Color-coded map showing which beds are Free (Green), 
+  Occupied (Red), or Cleaning (Blue).
+* Easy Admissions: Admit a patient to a General Ward, Private Room, or ICU in seconds.
+* 1-Click Discharge: Automatically totals room charges, medicines, and doctor fees, 
+  then generates an official Discharge Summary.
+
+[5] PHARMACY & MEDICINE STOCK
+* Fast Counter Sales: Quick barcode/search billing for walk-in customers.
+* Prescription Dispensing: Fulfill doctor prescriptions with a single click.
+* Expiry & Low-Stock Alerts: Warns you before medicines expire or run out of stock.
+
+[6] LABORATORY & DIAGNOSTICS
+* Test Catalog: Pre-configured test prices and normal health ranges.
+* Step-by-Step Tracking: Sample collected -> Testing -> Pathologist Verified.
+* Smart Results: Highlights abnormal values in bold so they are never missed.
+* Professional PDF Reports: Ready to print or hand over to patients.
+
+[7] BILLING, EXPENSES & FINANCE
+* Combined Invoices: Combines doctor fees, bed charges, pharmacy, and lab into 
+  one clear bill.
+* Multiple Payment Methods: Accept Cash, Card, Bank Transfer, or Insurance.
+* Expense Tracker: Record hospital expenses (rent, utilities, supplies, maintenance).
+* Unpaid Dues Tracking: Instantly see who owes money and track pending payments.
+* Profit & Loss Reports: Know your exact daily, weekly, and monthly earnings.
+
+[8] STAFF, ATTENDANCE & 1-CLICK PAYROLL
+* Staff Directory: Contact details, roles, shifts, and salaries for all employees.
+* Daily Attendance: Tracks check-in, check-out, and late arrivals automatically.
+* Leave Management: Simple system for staff leave requests and approvals.
+* 1-Click Monthly Payroll: Automatically calculates salaries, late deductions, 
+  and bonuses, and prints ready-made payslips.
+
+[9] HOSPITAL OWNER DASHBOARD
+* Live Daily Overview: See today's earnings, total patients, occupied beds, and 
+  doctor workload on one screen.
+* Revenue Charts: Visual graphs showing which departments make the most income.
+* Multi-Branch Switcher: If you have 2 or more clinic locations, switch between 
+  them or view total combined revenue with one click.
+
+[10] CUSTOM BRANDING & LOGO
+* Your Own Hospital Branding: Displays your hospital logo, contact info, and 
+  colors on all printed receipts, prescriptions, and reports.
+
+
+4. WHY YOUR HOSPITAL WILL BENEFIT
+--------------------------------------------------------------------------------
+1. Faster Service: Cuts patient wait times at reception and pharmacy by over 50%.
+2. No Lost Money: Every medicine, test, and bed day is automatically billed.
+3. 100% Paperless: Clean, organized, and no risk of lost physical files.
+4. Total Owner Control: Know your hospital's financial health anytime, anywhere.
+5. Simple to Learn: Staff can learn and start using it in less than 30 minutes.
+
+================================================================================
+                           END OF QUICK GUIDE
+================================================================================

@@ -1,0 +1,10 @@
+{
+  "description": "An animated portfolio showcasing Rai Fahd Sultan’s software projects, with detailed project pages, app screenshots, impact metrics, and light or dark themes.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
