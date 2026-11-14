@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import type { CSSProperties, ReactNode } from "react";
+import { projects, type Project, type ProjectScreenshot } from "./data/projects";
+import { ProductPreview } from "./components/ProjectThumbnails";
+import { AppGallery } from "./components/AppGallery";
 
 type IconName =
   | "arrow"
@@ -15,7 +18,11 @@ type IconName =
   | "play"
   | "check"
   | "globe"
-  | "layers";
+  | "layers"
+  | "mail"
+  | "linkedin"
+  | "github"
+  | "copy";
 function Icon({ name, size = 20 }: { name: IconName; size?: number }) {
   const paths: Record<IconName, ReactNode> = {
     arrow: (
@@ -67,6 +74,31 @@ function Icon({ name, size = 20 }: { name: IconName; size?: number }) {
         <path d="m12 3 10 5-10 5L2 8l10-5Zm-10 9 10 5 10-5M2 16l10 5 10-5" />
       </>
     ),
+    mail: (
+      <>
+        <rect width="20" height="16" x="2" y="4" rx="2" />
+        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+      </>
+    ),
+    linkedin: (
+      <>
+        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+        <rect width="4" height="12" x="2" y="9" />
+        <circle cx="4" cy="4" r="2" />
+      </>
+    ),
+    github: (
+      <>
+        <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+        <path d="M9 18c-4.51 2-5-2-7-2" />
+      </>
+    ),
+    copy: (
+      <>
+        <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+        <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+      </>
+    ),
   };
   return (
     <svg
@@ -100,281 +132,6 @@ function Asterisk({ className = "" }: { className?: string }) {
         />
       ))}
     </svg>
-  );
-}
-
-const projects = [
-  {
-    id: "orbit",
-    name: "Orbit",
-    type: "SaaS platform",
-    category: "SaaS",
-    tagline: "Less busywork. More big ideas.",
-    description:
-      "An all-in-one workspace that brings projects, people, and progress into one beautifully simple place.",
-    stack: ["Next.js", "TypeScript", "PostgreSQL"],
-    color: "mint",
-    number: "01",
-    problem:
-      "Great ideas get lost between scattered tools, endless updates, and disconnected teams. Orbit explores a calmer, more connected way to work.",
-    solution:
-      "A focused workspace with at-a-glance insights, intuitive task boards, and a single home for every project.",
-    stats: ["One workspace", "Three core workflows", "Web-first experience"],
-  },
-  {
-    id: "pocket",
-    name: "Pocket",
-    type: "Mobile application",
-    category: "Mobile apps",
-    tagline: "Your money. A little clearer.",
-    description:
-      "A personal finance companion that makes everyday spending feel a little more intentional.",
-    stack: ["React Native", "Node.js", "Firebase"],
-    color: "blue",
-    number: "02",
-    problem:
-      "Understanding everyday spending should not mean wrestling with complicated spreadsheets or overwhelming financial dashboards.",
-    solution:
-      "A friendly mobile experience that brings balances, spending categories, and savings goals together in a clear, approachable interface.",
-    stats: ["Mobile-first", "Three key screens", "Everyday clarity"],
-  },
-  {
-    id: "pulse",
-    name: "Pulse",
-    type: "Analytics dashboard",
-    category: "Dashboards",
-    tagline: "Big picture. Every little detail.",
-    description:
-      "Turning complex business data into clear insights, confident decisions, and the next right move.",
-    stack: ["React", "Python", "FastAPI"],
-    color: "navy",
-    number: "03",
-    problem:
-      "Raw data is everywhere, but useful answers are hard to find. Teams need a way to see what matters without adding more complexity.",
-    solution:
-      "An intentional analytics interface with readable visualizations, meaningful comparisons, and the most important signals up front.",
-    stats: ["Live-data ready", "Unified insights", "Desktop optimized"],
-  },
-];
-type Project = (typeof projects)[number];
-
-function ProductPreview({ project, variant = 0 }: { project: Project; variant?: number }) {
-  if (project.id === "pocket")
-    return (
-      <div className={`product-scene pocket-scene variant-${variant}`}>
-        <div className="pocket-circle" />
-        <span className="scene-note">
-          A little more
-          <br />
-          peace of mind.
-        </span>
-        <div className="phone phone-back">
-          <div className="phone-notch" />
-          <div className="phone-top">
-            Your activity <span>↗</span>
-          </div>
-          <div className="spend-ring">
-            <span>
-              Expenses<strong>$1,284</strong>
-            </span>
-          </div>
-          <div className="phone-subtitle">This month</div>
-          {["Shopping", "Food & drinks", "Transport"].map((x, i) => (
-            <div className="transaction" key={x}>
-              <i>{["S", "F", "T"][i]}</i>
-              <span>
-                {x}
-                <small>Personal expense</small>
-              </span>
-              <b>${[248, 126, 64][i]}</b>
-            </div>
-          ))}
-        </div>
-        <div className="phone phone-front">
-          <div className="phone-notch" />
-          <div className="phone-top">
-            Hello, Alex <span className="mini-avatar">a.</span>
-          </div>
-          <div className="balance-label">Total balance</div>
-          <div className="balance">
-            $8,450<span>.00</span>
-          </div>
-          <div className="bank-card">
-            <span>pocket.</span>
-            <Icon name="globe" size={16} />
-            <strong>•••• &nbsp; •••• &nbsp; •••• &nbsp; 2486</strong>
-            <small>
-              ALEX MORGAN <b>VISA</b>
-            </small>
-          </div>
-          <div className="phone-actions">
-            <span>
-              ↗<small>Send</small>
-            </span>
-            <span>
-              ＋<small>Add money</small>
-            </span>
-            <span>
-              ↙<small>Request</small>
-            </span>
-          </div>
-          <div className="phone-subtitle">
-            Your spending <small>See all</small>
-          </div>
-          <div className="tiny-chart">
-            {[35, 65, 48, 88, 60, 75, 46].map((n, i) => (
-              <i key={i} style={{ height: `${n}%` }} />
-            ))}
-          </div>
-          <div className="phone-nav">
-            ⌂ <span>▥</span> ◇ <span>○</span>
-          </div>
-        </div>
-        <div className="floating-spark">✳</div>
-      </div>
-    );
-  const orbit = project.id === "orbit";
-  return (
-    <div className={`product-scene ${orbit ? "orbit-scene" : "pulse-scene"} variant-${variant}`}>
-      <div className="scene-orbit" />
-      <div className="app-window">
-        <aside className="app-sidebar">
-          <div className="app-brand">
-            {orbit ? "◉ orbit" : "ϟ pulse"}
-            <span>WORKSPACE</span>
-          </div>
-          {[
-            "Overview",
-            orbit ? "My projects" : "Analytics",
-            orbit ? "My tasks" : "Audience",
-            "Reports",
-          ].map((s, i) => (
-            <div key={s} className={i === variant ? "side-item selected" : "side-item"}>
-              <span>{["▦", "◇", "▤", "▥"][i]}</span>
-              {s}
-            </div>
-          ))}
-          <small>YOUR WORKSPACE</small>
-          <div className="workspace-item">
-            <i />
-            Design team
-          </div>
-          <div className="workspace-item">
-            <i />
-            Engineering
-          </div>
-          <div className="app-user">
-            <span className="mini-avatar">a.</span>
-            <span>
-              Alex Morgan<small>Pro workspace</small>
-            </span>
-          </div>
-        </aside>
-        <div className="app-main">
-          <div className="app-topbar">
-            <span>
-              {variant === 1
-                ? "Project insights"
-                : variant === 2
-                  ? "Activity overview"
-                  : "Overview"}
-            </span>
-            <span>
-              ⌕ &nbsp; ◉ &nbsp; <b className="mini-avatar">a.</b>
-            </span>
-          </div>
-          <div className="app-greeting">
-            <div>
-              <h4>{orbit ? "Let’s make things happen." : "Your business, at a glance."}</h4>
-              <p>Here’s what’s happening in your workspace today.</p>
-            </div>
-            <b>+ {orbit ? "New project" : "Export"}</b>
-          </div>
-          <div className="app-stats">
-            {(orbit
-              ? [
-                  ["Total projects", "24", "+4 this month"],
-                  ["In progress", "12", "Right on track"],
-                  ["Completed", "86%", "+12% this month"],
-                ]
-              : [
-                  ["Total revenue", "$48,250", "↗ 18.4%"],
-                  ["Active users", "12,840", "↗ 24.6%"],
-                  ["Conversion", "4.82%", "↗ 2.1%"],
-                ]
-            ).map(([label, value, trend]) => (
-              <div key={label}>
-                <small>
-                  {label}
-                  <span>↗</span>
-                </small>
-                <strong>{value}</strong>
-                <em>{trend}</em>
-              </div>
-            ))}
-          </div>
-          <div className="app-chart">
-            <div className="chart-heading">
-              {orbit ? "Project activity" : "Revenue overview"}
-              <small>Last 7 months⌄</small>
-            </div>
-            <div className="chart-grid">
-              <div className="axis">
-                <span>{orbit ? "100" : "50k"}</span>
-                <span>{orbit ? "75" : "35k"}</span>
-                <span>{orbit ? "50" : "20k"}</span>
-                <span>0</span>
-              </div>
-              <div className="chart-bars">
-                {[40, 62, 48, 78, 64, 87, 72, 92, 70, 82, 94, 86].map((n, i) => (
-                  <div
-                    key={i}
-                    style={
-                      {
-                        "--bar-height": `${variant === 1 ? 100 - n / 2 : n}%`,
-                        "--i": i,
-                      } as CSSProperties
-                    }
-                  >
-                    <i />
-                    <i />
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="chart-months">
-              <span>Jan</span>
-              <span>Feb</span>
-              <span>Mar</span>
-              <span>Apr</span>
-              <span>May</span>
-              <span>Jun</span>
-            </div>
-          </div>
-          <div className="app-bottom">
-            <span>{orbit ? "Your recent projects" : "Recent transactions"}</span>
-            <small>View all →</small>
-          </div>
-          <div className="app-table">
-            <i />
-            {orbit ? "Website redesign" : "Subscription payment"}
-            <span>In progress</span>
-            <b>•••</b>
-          </div>
-        </div>
-      </div>
-      {orbit && (
-        <div className="task-toast">
-          <span className="toast-check">
-            <Icon name="check" size={12} />
-          </span>
-          <div>
-            Another one, done.<small>Good things are taking shape.</small>
-          </div>
-          <span>↗</span>
-        </div>
-      )}
-    </div>
   );
 }
 
@@ -496,10 +253,18 @@ export default function App() {
   const [lightbox, setLightbox] = useState(false);
   const [contact, setContact] = useState(false);
   const [downloaded, setDownloaded] = useState(false);
+  const [copiedEmail, setCopiedEmail] = useState(false);
   const [menu, setMenu] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const modalRef = useRef<HTMLDialogElement>(null);
-  const lightboxRef = useRef<HTMLDialogElement>(null);
+
+  const copyEmail = () => {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText("fahd.w871@gmail.com");
+      setCopiedEmail(true);
+      setTimeout(() => setCopiedEmail(false), 2400);
+    }
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 15);
@@ -514,32 +279,101 @@ export default function App() {
   useEffect(() => {
     document.documentElement.dataset.motion = motion ? "on" : "off";
   }, [motion]);
+  const performScroll = (id: string) => {
+    if (!id || id === "/" || id === "top") {
+      window.scrollTo({ top: 0, behavior: motion ? "smooth" : "instant" });
+      return;
+    }
+    const cleanId = id.replace(/^[#/]+/, "");
+    if (!cleanId) {
+      window.scrollTo({ top: 0, behavior: motion ? "smooth" : "instant" });
+      return;
+    }
+    const el = document.getElementById(cleanId);
+    if (!el) return;
+
+    const header = document.querySelector(".site-header") as HTMLElement | null;
+    const headerHeight = header ? header.offsetHeight : 68;
+    // Section top offset with generous breathing space below sticky header
+    const offset = headerHeight + 16;
+
+    const elementPosition = el.getBoundingClientRect().top;
+    const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+    window.scrollTo({
+      top: Math.max(0, offsetPosition),
+      behavior: motion ? "smooth" : "instant",
+    });
+  };
+
+  const scrollToSection = (id: string, e?: React.MouseEvent) => {
+    if (e) e.preventDefault();
+    setMenu(false);
+
+    if (project) {
+      setProject(undefined);
+      window.location.hash = id === "top" ? "#/" : `#${id}`;
+      setTimeout(() => {
+        performScroll(id);
+      }, 50);
+      return;
+    }
+
+    if (id === "top") {
+      if (window.location.hash && window.location.hash !== "#/") {
+        window.history.pushState(null, "", "#/");
+      }
+      performScroll("top");
+      return;
+    }
+
+    if (window.location.hash !== `#${id}`) {
+      window.history.pushState(null, "", `#${id}`);
+    }
+    performScroll(id);
+  };
+
   useEffect(() => {
     const route = () => {
       const next = getProject();
       setProject(next);
       setSlide(0);
       setMenu(false);
-      if (next || !window.location.hash || window.location.hash === "#/")
+      if (next) {
         window.scrollTo({ top: 0, behavior: "instant" });
-      else
-        requestAnimationFrame(() =>
-          document
-            .getElementById(window.location.hash.slice(1))
-            ?.scrollIntoView({ behavior: "instant" }),
-        );
+      } else if (
+        !window.location.hash ||
+        window.location.hash === "#/" ||
+        window.location.hash === "#top"
+      ) {
+        window.scrollTo({ top: 0, behavior: motion ? "smooth" : "instant" });
+      } else {
+        const id = window.location.hash.replace(/^[#/]+/, "");
+        setTimeout(() => {
+          performScroll(id);
+        }, 50);
+      }
     };
     window.addEventListener("hashchange", route);
     return () => window.removeEventListener("hashchange", route);
-  }, []);
+  }, [motion]);
   useEffect(() => {
-    if (contact) modalRef.current?.showModal();
-    else modalRef.current?.close();
+    if (contact) {
+      if (!modalRef.current?.open) modalRef.current?.showModal();
+    } else {
+      if (modalRef.current?.open) modalRef.current?.close();
+    }
   }, [contact]);
   useEffect(() => {
-    if (lightbox) lightboxRef.current?.showModal();
-    else lightboxRef.current?.close();
-  }, [lightbox]);
+    if (!lightbox) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLightbox(false);
+      if (e.key === "ArrowRight") nextSlide(1);
+      if (e.key === "ArrowLeft") nextSlide(-1);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [lightbox, project, slide]);
   useEffect(() => {
     document.body.style.overflow = contact || lightbox ? "hidden" : "";
     return () => {
@@ -550,32 +384,39 @@ export default function App() {
     setDownloaded(false);
     setContact(true);
   };
-  const nextSlide = (direction: number) => setSlide((s) => (s + direction + 3) % 3);
+  const nextSlide = (direction: number) => {
+    if (!project || !project.screenshots.length) return;
+    setSlide((s) => (s + direction + project.screenshots.length) % project.screenshots.length);
+  };
   const homeLink = (anchor: string) => `#${anchor}`;
 
   return (
     <>
       <header className={`site-header ${scrolled ? "scrolled" : ""}`}>
         <div className="site-header-inner">
-          <a href="#/" className="wordmark" aria-label="Rai Fahd Sultan home">
+          <a
+            href="#/"
+            className="wordmark"
+            onClick={(e) => scrollToSection("top", e)}
+            aria-label="Rai Fahd Sultan home"
+          >
             rfs<span>.</span>
             <span className="wordmark-star">✳</span>
           </a>
           <nav className={menu ? "main-nav mobile-open" : "main-nav"} aria-label="Main navigation">
-            <a href={homeLink("work")} onClick={() => setMenu(false)}>
-              Selected work<span>03</span>
+            <a href="#work" onClick={(e) => scrollToSection("work", e)}>
+              Selected work<span>04</span>
             </a>
-            <a href={homeLink("about")} onClick={() => setMenu(false)}>
+            <a href="#about" onClick={(e) => scrollToSection("about", e)}>
               A bit about me
             </a>
-            <button
-              onClick={() => {
-                openContact();
-                setMenu(false);
-              }}
+            <a
+              href="#contact"
+              onClick={(e) => scrollToSection("contact", e)}
+              className="nav-contact-link"
             >
-              Let’s talk <Icon name="arrow" size={14} />
-            </button>
+              Contact <Icon name="arrow" size={14} />
+            </a>
           </nav>
           <div className="header-actions">
             <button
@@ -631,10 +472,17 @@ export default function App() {
                   <br className="desktop-break" /> that look good, feel right, and just work.
                 </p>
                 <div className="hero-buttons">
-                  <a href="#work" className="button button-primary">
+                  <a
+                    href="#work"
+                    className="button button-primary"
+                    onClick={(e) => scrollToSection("work", e)}
+                  >
                     Explore my work <Icon name="down" size={17} />
                   </a>
-                  <button className="button button-text" onClick={openContact}>
+                  <button
+                    className="button button-text"
+                    onClick={(e) => scrollToSection("contact", e)}
+                  >
                     Let’s build something <Icon name="arrow" size={16} />
                   </button>
                 </div>
@@ -645,7 +493,7 @@ export default function App() {
               <HeroArt />
               <div className="hero-bottom">
                 <span>IDEAS INTO INTERFACES. PIXELS INTO PURPOSE.</span>
-                <a href="#work">
+                <a href="#work" onClick={(e) => scrollToSection("work", e)}>
                   SCROLL TO EXPLORE{" "}
                   <span className="scroll-pill">
                     <span />
@@ -689,23 +537,30 @@ export default function App() {
                     <p>A few ideas I’ve turned into things you can actually use.</p>
                   </div>
                   <span className="work-count">
-                    01 — 03 <Icon name="arrow" size={20} />
+                    01 — 04 <Icon name="arrow" size={20} />
                   </span>
                 </div>
               </Reveal>
               <div className="work-toolbar">
                 <div className="filter-tabs" aria-label="Filter projects">
-                  {["All work", "SaaS", "Mobile apps", "Dashboards"].map((f) => (
-                    <button
-                      key={f}
-                      className={filter === f ? "active" : ""}
-                      onClick={() => setFilter(f)}
-                      aria-pressed={filter === f}
-                    >
-                      {f}
-                      {f === "All work" && <span>3</span>}
-                    </button>
-                  ))}
+                  {["All work", "SaaS", "Mobile apps", "Full stack"].map((f) => {
+                    const count =
+                      f === "All work"
+                        ? projects.length
+                        : projects.filter((p) => p.category === f || p.categories.includes(f))
+                            .length;
+                    return (
+                      <button
+                        key={f}
+                        className={filter === f ? "active" : ""}
+                        onClick={() => setFilter(f)}
+                        aria-pressed={filter === f}
+                      >
+                        {f}
+                        <span>{count}</span>
+                      </button>
+                    );
+                  })}
                 </div>
                 <span className="toolbar-note">
                   <span className="status-dot" /> A little bit of everything.
@@ -713,7 +568,12 @@ export default function App() {
               </div>
               <div className="project-grid">
                 {projects
-                  .filter((p) => filter === "All work" || p.category === filter)
+                  .filter(
+                    (p) =>
+                      filter === "All work" ||
+                      p.category === filter ||
+                      p.categories.includes(filter),
+                  )
                   .map((p) => (
                     <Reveal key={p.id} className="project-reveal">
                       <a href={`#/project/${p.id}`} className={`project-card ${p.color}`}>
@@ -740,9 +600,10 @@ export default function App() {
                           </div>
                           <p>{p.tagline}</p>
                           <div className="project-tags">
-                            {p.stack.map((t) => (
+                            {p.stack.slice(0, 4).map((t) => (
                               <span key={t}>{t}</span>
                             ))}
+                            {p.stack.length > 4 && <span>+{p.stack.length - 4}</span>}
                           </div>
                         </div>
                       </a>
@@ -778,7 +639,7 @@ export default function App() {
                     <br />A designer’s eye<span className="teal-period">.</span>
                   </h2>
                   <p>
-                    I’m Rai, a full stack software engineer who cares as much about how something
+                    I’m Fahd, a full stack software engineer who cares as much about how something
                     feels as how it works.
                   </p>
                   <p>
@@ -820,59 +681,267 @@ export default function App() {
                 </div>
               </Reveal>
             </section>
-            <section className="contact-section page-width">
+            <section id="contact" className="contact-section page-width">
               <Reveal>
-                <div className="contact-box">
-                  <div className="eyebrow">
-                    <span className="status-dot" /> GOOD THINGS START WITH A CONVERSATION
-                  </div>
-                  <h2>
-                    Your next big idea.
-                    <br />
-                    Let’s make it <span>real.</span>
-                  </h2>
-                  <button className="contact-cta" onClick={openContact}>
-                    Let’s build something together <Icon name="arrow" size={25} />
-                  </button>
+                <div className="contact-panel">
                   <Asterisk className="contact-star" />
-                  <span className="contact-small">A little curiosity can go a long way.</span>
+
+                  <div className="contact-header">
+                    <div className="eyebrow">
+                      <span className="status-dot" /> CONTACT & INQUIRIES
+                    </div>
+                    <h2>
+                      Let’s build something <span>exceptional.</span>{" "}
+                      <span className="contact-title-arrow">
+                        <Icon name="arrow" size={32} />
+                      </span>
+                    </h2>
+                    <p className="contact-lead">
+                      Have a product to architect, a complex challenge to tackle, or looking for an
+                      experienced full stack and mobile engineer? Reach out directly through any of
+                      these platforms.
+                    </p>
+                  </div>
+
+                  <div className="contact-cards-grid">
+                    {/* Gmail Card */}
+                    <div className="contact-channel-card card-gmail">
+                      <div className="channel-top">
+                        <div className="channel-icon-wrap email-icon">
+                          <Icon name="mail" size={20} />
+                        </div>
+                        <span className="channel-badge">Primary Email</span>
+                      </div>
+                      <div className="channel-content">
+                        <h3>Direct Email</h3>
+                        <p className="channel-subtitle">
+                          Fastest response · Project inquiries & consulting
+                        </p>
+                        <a href="mailto:fahd.w871@gmail.com" className="channel-value email-value">
+                          fahd.w871@gmail.com
+                        </a>
+                      </div>
+                      <div className="channel-actions">
+                        <a
+                          href="mailto:fahd.w871@gmail.com"
+                          className="button button-primary channel-btn"
+                        >
+                          Send Email <Icon name="arrow" size={14} />
+                        </a>
+                        <button
+                          type="button"
+                          className="channel-copy-btn"
+                          onClick={copyEmail}
+                          title="Copy email to clipboard"
+                        >
+                          <Icon name={copiedEmail ? "check" : "copy"} size={15} />
+                          <span>{copiedEmail ? "Copied!" : "Copy"}</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* LinkedIn Card */}
+                    <div className="contact-channel-card card-linkedin">
+                      <div className="channel-top">
+                        <div className="channel-icon-wrap linkedin-icon">
+                          <Icon name="linkedin" size={20} />
+                        </div>
+                        <span className="channel-badge">Network</span>
+                      </div>
+                      <div className="channel-content">
+                        <h3>LinkedIn</h3>
+                        <p className="channel-subtitle">
+                          Professional profile, experience & recommendations
+                        </p>
+                        <a
+                          href="https://www.linkedin.com/in/rai-fahd-s-23074936b/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="channel-value"
+                        >
+                          in/rai-fahd-s-23074936b
+                        </a>
+                      </div>
+                      <div className="channel-actions">
+                        <a
+                          href="https://www.linkedin.com/in/rai-fahd-s-23074936b/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="button button-outline channel-btn"
+                        >
+                          Connect on LinkedIn <Icon name="arrow" size={14} />
+                        </a>
+                      </div>
+                    </div>
+
+                    {/* GitHub Card */}
+                    <div className="contact-channel-card card-github">
+                      <div className="channel-top">
+                        <div className="channel-icon-wrap github-icon">
+                          <Icon name="github" size={20} />
+                        </div>
+                        <span className="channel-badge">Code</span>
+                      </div>
+                      <div className="channel-content">
+                        <h3>GitHub</h3>
+                        <p className="channel-subtitle">
+                          Open source repositories, architectures & code
+                        </p>
+                        <a
+                          href="https://github.com/RaiFahd"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="channel-value"
+                        >
+                          github.com/RaiFahd
+                        </a>
+                      </div>
+                      <div className="channel-actions">
+                        <a
+                          href="https://github.com/RaiFahd"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="button button-outline channel-btn"
+                        >
+                          Explore GitHub <Icon name="arrow" size={14} />
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Inline Project Brief / Quick Message Generator */}
+                  <div className="contact-form-container">
+                    <div className="contact-form-header">
+                      <div className="eyebrow">
+                        <span className="tiny-square" /> QUICK INQUIRY OR PROJECT BRIEF
+                      </div>
+                      <h4>Prefer to draft your idea?</h4>
+                      <p>
+                        Submit below to prefill an email directly to my inbox and generate a
+                        downloadable brief.
+                      </p>
+                    </div>
+
+                    <form
+                      className="contact-inline-form"
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        const data = new FormData(e.currentTarget);
+                        const name = String(data.get("name") || "");
+                        const email = String(data.get("email") || "");
+                        const idea = String(data.get("idea") || "");
+                        const text = `PROJECT BRIEF FOR RAI FAHD SULTAN\n\nFrom: ${name}\nEmail: ${email}\n\nTHE IDEA & REQUIREMENTS\n${idea}\n\nDate: ${new Date().toLocaleDateString()}`;
+
+                        const mailSubject = encodeURIComponent(`Project Inquiry from ${name}`);
+                        const mailBody = encodeURIComponent(
+                          `Hi Fahd,\n\nName: ${name}\nEmail: ${email}\n\nProject Overview:\n${idea}\n\nBest regards,\n${name}`,
+                        );
+                        window.location.href = `mailto:fahd.w871@gmail.com?subject=${mailSubject}&body=${mailBody}`;
+
+                        const url = URL.createObjectURL(new Blob([text], { type: "text/plain" }));
+                        const link = document.createElement("a");
+                        link.href = url;
+                        link.download = `project-brief-${name.toLowerCase().replace(/[^a-z0-9]/g, "-") || "inquiry"}.txt`;
+                        link.click();
+                        URL.revokeObjectURL(url);
+                        setDownloaded(true);
+                      }}
+                    >
+                      <div className="form-fields-grid">
+                        <label>
+                          Your name
+                          <input
+                            name="name"
+                            required
+                            placeholder="What should I call you?"
+                            autoComplete="name"
+                          />
+                        </label>
+                        <label>
+                          Email address
+                          <input
+                            name="email"
+                            type="email"
+                            required
+                            placeholder="your.email@example.com"
+                            autoComplete="email"
+                          />
+                        </label>
+                      </div>
+                      <label>
+                        What are you looking to build?
+                        <textarea
+                          name="idea"
+                          required
+                          rows={3}
+                          placeholder="Tell me about the goals, timeline, or engineering challenges..."
+                        />
+                      </label>
+                      <div className="form-actions-row">
+                        <button className="button button-primary" type="submit">
+                          {downloaded ? "Send again" : "Send email & download brief"}
+                          <Icon name={downloaded ? "check" : "arrow"} size={16} />
+                        </button>
+                        {downloaded && (
+                          <span className="form-success-chip">
+                            <Icon name="check" size={15} /> Brief downloaded & email initiated!
+                          </span>
+                        )}
+                      </div>
+                    </form>
+                  </div>
                 </div>
               </Reveal>
             </section>
           </>
         ) : (
           <section className="case-study page-width" key={project.id}>
-            <a href="#work" className="back-link">
+            <a href="#work" className="back-link" onClick={(e) => scrollToSection("work", e)}>
               <Icon name="left" size={17} /> Back to selected work
             </a>
-            <div className="case-title">
-              <div>
+
+            {/* Project Hero Header: Name on left, Thumbnail on right */}
+            <div className="case-title-row">
+              <div className="case-title-left">
                 <div className="eyebrow">
-                  <span className="tiny-square" /> CONCEPT PROJECT / {project.type.toUpperCase()}
+                  <span className="tiny-square" /> {project.timeline} · {project.type.toUpperCase()}
                 </div>
                 <h1>
                   {project.name}
                   <span className="teal-period">.</span>
                 </h1>
-                <p>{project.tagline}</p>
+                <p className="case-hero-tagline">{project.tagline}</p>
+                <div className="case-quick-stats">
+                  {project.stats.map((s) => (
+                    <span key={s} className="quick-stat-badge">
+                      <span className="stat-bullet">✦</span> {s}
+                    </span>
+                  ))}
+                </div>
               </div>
-              <Asterisk />
+              <div className="case-title-right">
+                <div className={`case-header-mockup ${project.color}`}>
+                  <ProductPreview project={project} />
+                </div>
+              </div>
             </div>
+
+            {/* Metadata Bar */}
             <div className="case-meta">
               <div>
-                <span>THE IDEA</span>
+                <span>OVERVIEW</span>
                 <p>{project.description}</p>
               </div>
               <div>
-                <span>ROLE</span>
+                <span>ROLE & PLATFORMS</span>
                 <p>
-                  Full stack engineering
+                  <strong>{project.role}</strong>
                   <br />
-                  Product & interface design
+                  <small>{project.platform}</small>
                 </p>
               </div>
               <div>
-                <span>BUILT WITH</span>
+                <span>CORE TECH STACK</span>
                 <div className="project-tags">
                   {project.stack.map((t) => (
                     <span key={t}>{t}</span>
@@ -880,106 +949,42 @@ export default function App() {
                 </div>
               </div>
             </div>
-            <div className="gallery-heading">
-              <span className="eyebrow">A CLOSER LOOK</span>
-              <span>
-                Click a preview to expand <Icon name="arrow" size={14} />
-              </span>
-            </div>
-            <button
-              className={`gallery-main ${project.color}`}
-              onClick={() => setLightbox(true)}
-              aria-label={`Expand ${["Overview", "Insights", "Activity"][slide]} preview`}
-            >
-              <ProductPreview project={project} variant={slide} />
-              <span className="gallery-caption">
-                {["01 / The overview", "02 / The details", "03 / The bigger picture"][slide]}{" "}
-                <Icon name="arrow" size={18} />
-              </span>
-            </button>
-            <div className="gallery-controls">
-              <div className="gallery-thumbs">
-                {[0, 1, 2].map((i) => (
-                  <button
-                    key={i}
-                    className={slide === i ? "selected" : ""}
-                    onClick={() => setSlide(i)}
-                    aria-label={`View ${["overview", "insights", "activity"]} screenshot`}
-                    aria-pressed={slide === i}
-                  >
-                    <ProductPreview project={project} variant={i} />
-                  </button>
-                ))}
-              </div>
-              <div className="gallery-arrows">
-                <span>
-                  0{slide + 1} <small>/ 03</small>
-                </span>
-                <button
-                  className="circle-button"
-                  onClick={() => nextSlide(-1)}
-                  aria-label="Previous screenshot"
-                >
-                  <Icon name="left" />
-                </button>
-                <button
-                  className="circle-button"
-                  onClick={() => nextSlide(1)}
-                  aria-label="Next screenshot"
-                >
-                  <Icon name="right" />
-                </button>
-              </div>
-            </div>
+
+            {/* CONTINUOUS MOVING APP GALLERY (SLIDESHOW) */}
+            <AppGallery
+              project={project}
+              onSelectScreenshot={(idx) => {
+                setSlide(idx);
+                setLightbox(true);
+              }}
+            />
+
+            {/* CRISP 2-COLUMN STORY (CHALLENGE & SOLUTION) */}
             <div className="case-story">
               <div>
                 <span className="eyebrow">01 / THE CHALLENGE</span>
-                <h2>A problem worth solving.</h2>
-                <p>{project.problem}</p>
+                <h2>{project.problem.headline}</h2>
+                <p>{project.problem.narrative}</p>
               </div>
               <div>
-                <span className="eyebrow">02 / THE APPROACH</span>
-                <h2>Less friction. More flow.</h2>
-                <p>{project.solution}</p>
+                <span className="eyebrow">02 / THE SOLUTION & IMPACT</span>
+                <h2>{project.solution.headline}</h2>
+                <p>{project.solution.narrative}</p>
               </div>
             </div>
-            <div className="case-highlights">
-              {project.stats.map((s, i) => (
-                <div key={s}>
-                  <span>0{i + 1}</span>
-                  <Icon name={["globe", "layers", "code"][i] as IconName} size={24} />
-                  <h3>{s}</h3>
-                  <p>
-                    {
-                      [
-                        "Built around real human needs.",
-                        "Considered down to the details.",
-                        "Engineered for what comes next.",
-                      ][i]
-                    }
-                  </p>
-                </div>
-              ))}
-            </div>
-            <div className="concept-note">
-              <Icon name="code" size={20} />
-              <p>
-                <strong>A preview of what’s possible.</strong> This is an illustrative concept.
-                Final screenshots, project details, and verified impact statistics will be added
-                with the real project content.
-              </p>
-            </div>
+
+            {/* NEXT PROJECT (CYCLING ALL 4 IN ORDER) */}
             <div className="next-project">
               <div>
-                <span className="eyebrow">KEEP EXPLORING</span>
+                <span className="eyebrow">CONTINUE EXPLORING</span>
                 <h2>
-                  {projects[(projects.indexOf(project) + 1) % 3].name}
+                  {projects[(projects.indexOf(project) + 1) % projects.length].name}
                   <span className="teal-period">.</span>
                 </h2>
               </div>
               <a
                 className="button button-primary"
-                href={`#/project/${projects[(projects.indexOf(project) + 1) % 3].id}`}
+                href={`#/project/${projects[(projects.indexOf(project) + 1) % projects.length].id}`}
               >
                 Next project <Icon name="arrow" size={18} />
               </a>
@@ -988,11 +993,37 @@ export default function App() {
         )}
       </main>
       <footer className="site-footer page-width">
-        <a href="#/" className="wordmark">
-          rfs<span>.</span>
-        </a>
-        <span>© {new Date().getFullYear()} Rai Fahd Sultan. Built with care, not a template.</span>
+        <div className="footer-left">
+          <a href="#/" className="wordmark">
+            rfs<span>.</span>
+          </a>
+          <span className="footer-copy">
+            © {new Date().getFullYear()} Rai Fahd Sultan · Full Stack & Mobile Engineer
+          </span>
+        </div>
+        <div className="footer-links">
+          <a href="mailto:fahd.w871@gmail.com" className="footer-link">
+            <Icon name="mail" size={15} /> fahd.w871@gmail.com
+          </a>
+          <a
+            href="https://www.linkedin.com/in/rai-fahd-s-23074936b/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="footer-link"
+          >
+            <Icon name="linkedin" size={15} /> LinkedIn
+          </a>
+          <a
+            href="https://github.com/RaiFahd"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="footer-link"
+          >
+            <Icon name="github" size={15} /> GitHub
+          </a>
+        </div>
         <button
+          className="footer-top-btn"
           onClick={() => window.scrollTo({ top: 0, behavior: motion ? "smooth" : "instant" })}
         >
           Back to top <span>↑</span>
@@ -1038,26 +1069,58 @@ export default function App() {
           <Icon name="close" />
         </button>
         <div className="eyebrow">
-          <span className="tiny-square" /> THE START OF SOMETHING GOOD
+          <span className="tiny-square" /> GET IN TOUCH
         </div>
         <h2>
-          Big idea?
-          <br />
-          I’m all ears<span className="teal-period">.</span>
+          Let’s connect<span className="teal-period">.</span>
         </h2>
-        <p>
-          My contact details are coming soon. In the meantime, put your idea into words and download
-          a brief to share when we connect.
+        <p className="dialog-subtext">
+          Reach out directly via email, connect on LinkedIn or GitHub, or generate a formatted
+          project brief below.
         </p>
+
+        {/* Quick Contact Chips inside dialog */}
+        <div className="dialog-channels-row">
+          <a href="mailto:fahd.w871@gmail.com" className="dialog-channel-chip email-chip">
+            <Icon name="mail" size={15} /> fahd.w871@gmail.com
+          </a>
+          <a
+            href="https://www.linkedin.com/in/rai-fahd-s-23074936b/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="dialog-channel-chip"
+          >
+            <Icon name="linkedin" size={15} /> LinkedIn ↗
+          </a>
+          <a
+            href="https://github.com/RaiFahd"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="dialog-channel-chip"
+          >
+            <Icon name="github" size={15} /> GitHub ↗
+          </a>
+        </div>
+
         <form
           onSubmit={(e) => {
             e.preventDefault();
             const data = new FormData(e.currentTarget);
-            const text = `PROJECT BRIEF FOR RAI FAHD SULTAN\n\nFrom: ${data.get("name")}\nEmail: ${data.get("email")}\n\nTHE IDEA\n${data.get("idea")}`;
+            const name = String(data.get("name") || "");
+            const email = String(data.get("email") || "");
+            const idea = String(data.get("idea") || "");
+            const text = `PROJECT BRIEF FOR RAI FAHD SULTAN\n\nFrom: ${name}\nEmail: ${email}\n\nTHE IDEA\n${idea}\n\nDate: ${new Date().toLocaleDateString()}`;
+
+            const mailSubject = encodeURIComponent(`Project Inquiry from ${name}`);
+            const mailBody = encodeURIComponent(
+              `Hi Fahd,\n\nName: ${name}\nEmail: ${email}\n\nProject Overview:\n${idea}\n\nBest regards,\n${name}`,
+            );
+            window.location.href = `mailto:fahd.w871@gmail.com?subject=${mailSubject}&body=${mailBody}`;
+
             const url = URL.createObjectURL(new Blob([text], { type: "text/plain" }));
             const link = document.createElement("a");
             link.href = url;
-            link.download = "my-project-brief.txt";
+            link.download = `my-project-brief-${name.toLowerCase().replace(/[^a-z0-9]/g, "-") || "inquiry"}.txt`;
             link.click();
             URL.revokeObjectURL(url);
             setDownloaded(true);
@@ -1097,53 +1160,93 @@ export default function App() {
           )}
         </form>
       </dialog>
-      <dialog
-        ref={lightboxRef}
-        className="lightbox"
-        onCancel={() => setLightbox(false)}
-        onKeyDown={(e) => {
-          if (e.key === "ArrowRight") nextSlide(1);
-          if (e.key === "ArrowLeft") nextSlide(-1);
-        }}
-        onClick={(e) => {
-          if (e.target === e.currentTarget) setLightbox(false);
-        }}
-      >
-        <div className="lightbox-header">
-          <span>
-            {project?.name} — {["Overview", "Insights", "Activity"][slide]}
-          </span>
-          <button
-            className="circle-button"
-            onClick={() => setLightbox(false)}
-            aria-label="Close expanded preview"
-          >
-            <Icon name="close" />
-          </button>
-        </div>
-        {project && (
-          <div className={`lightbox-scene ${project.color}`}>
-            <ProductPreview project={project} variant={slide} />
+      {lightbox && project && project.screenshots[slide] && (
+        <div
+          className="lightbox-overlay"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Image preview"
+          onClick={() => setLightbox(false)}
+        >
+          <div className="lightbox-card" onClick={(e) => e.stopPropagation()}>
+            <div className="lightbox-header">
+              <div className="lightbox-title-info">
+                <span className="lightbox-proj-name">{project.name}</span>
+                <span className="lightbox-sep">/</span>
+                <span className="lightbox-shot-title">
+                  {project.screenshots[slide]?.title || `Screen ${slide + 1}`}
+                </span>
+              </div>
+              <div className="lightbox-nav-right">
+                <span className="lightbox-counter">
+                  {String(slide + 1).padStart(2, "0")} /{" "}
+                  {String(project.screenshots.length).padStart(2, "0")}
+                </span>
+                <button
+                  type="button"
+                  className="circle-button lightbox-close-btn"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setLightbox(false);
+                  }}
+                  aria-label="Close expanded preview"
+                >
+                  <Icon name="close" />
+                </button>
+              </div>
+            </div>
+
+            <div
+              className={`lightbox-stage ${project.color} ${
+                project.galleryType === "desktop" ? "stage-desktop" : "stage-mobile"
+              }`}
+            >
+              <button
+                type="button"
+                className="circle-button lightbox-arrow left-arrow"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  nextSlide(-1);
+                }}
+                aria-label="Previous screenshot"
+              >
+                <Icon name="left" />
+              </button>
+
+              <div className="lightbox-image-container">
+                <img
+                  src={project.screenshots[slide].url}
+                  alt={project.screenshots[slide].title}
+                  className="lightbox-full-img"
+                />
+              </div>
+
+              <button
+                type="button"
+                className="circle-button lightbox-arrow right-arrow"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  nextSlide(1);
+                }}
+                aria-label="Next screenshot"
+              >
+                <Icon name="right" />
+              </button>
+            </div>
+
+            <div className="lightbox-caption-bar">
+              <div>
+                <h4>{project.screenshots[slide].title}</h4>
+                <p>{project.screenshots[slide].caption}</p>
+              </div>
+              <div className="lightbox-shortcut-hint">
+                <span>Use ← and → keyboard arrows to browse • Esc to close</span>
+              </div>
+            </div>
           </div>
-        )}
-        <div className="lightbox-controls">
-          <button
-            className="circle-button"
-            onClick={() => nextSlide(-1)}
-            aria-label="Previous expanded screenshot"
-          >
-            <Icon name="left" />
-          </button>
-          <span>{slide + 1} / 3</span>
-          <button
-            className="circle-button"
-            onClick={() => nextSlide(1)}
-            aria-label="Next expanded screenshot"
-          >
-            <Icon name="right" />
-          </button>
         </div>
-      </dialog>
+      )}
     </>
   );
 }

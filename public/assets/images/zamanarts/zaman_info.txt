@@ -1,0 +1,64 @@
+Zaman Arts E-Commerce App
+A feature-rich Flutter e-commerce application for browsing and purchasing arts and crafts products with integrated video content, real-time notifications, and seamless checkout experience.
+
+Overview
+The Zaman Arts app is a modern mobile e-commerce platform that combines product discovery, video content, and smooth shopping functionality. Users can browse products, watch detailed videos, manage a shopping cart, place orders, and track their purchases—all with a polished, intuitive interface.
+
+Key Features
+Product Discovery
+Browse products with grid and video layouts
+Search functionality for finding specific items
+Curated collections for organized browsing
+Product filtering and sorting capabilities
+Like and comment on products
+Cached product images for better performance
+Video Content
+Integrated video player for product demonstrations
+Video preloading for smooth playback
+Like and comment interactions on videos
+Liked videos tracking in user profile
+Chewie video player with advanced controls
+Shopping Experience
+Add products to cart
+Manage cart quantities and items
+Checkout with multiple payment options
+Deep linking support for direct product access
+Order tracking and history
+Return/refund request management
+User Management
+Google Sign-In integration
+Email/password authentication
+User profile management
+Address management for shipping
+Order history and returns tracking
+Account preferences
+Notifications
+Firebase Cloud Messaging (FCM) integration
+Push notifications for orders and updates
+Local notifications support
+Real-time notification handling
+Additional Features
+Share products and content
+Dark mode support with custom theme
+Edge-to-edge display optimization
+Offline cache support via SharedPreferences
+Firebase integration for backend services
+Technology Stack
+Frontend Framework
+Flutter 3.9.2+
+Dart language
+Key Dependencies
+video_player & chewie: Video playback functionality
+firebase_core & firebase_messaging: Push notifications and backend services
+google_sign_in: Social authentication
+cached_network_image: Image caching and optimization
+http: API communication
+shared_preferences: Local data persistence
+flutter_dotenv: Environment configuration
+app_links: Deep linking support
+confetti: Visual effects for celebrations
+flutter_local_notifications: Local notification handling
+Platform Support
+Android (with native Firebase and Google Sign-In integration)
+iOS (via CocoaPods)
+Web, Linux, macOS, and Windows (basic support)
