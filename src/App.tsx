@@ -257,6 +257,28 @@ export default function App() {
   const [menu, setMenu] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const modalRef = useRef<HTMLDialogElement>(null);
+  const touchStartX = useRef<number | null>(null);
+  const touchStartY = useRef<number | null>(null);
+
+  const handleLightboxTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+  };
+
+  const handleLightboxTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null || touchStartY.current === null) return;
+    const deltaX = e.changedTouches[0].clientX - touchStartX.current;
+    const deltaY = e.changedTouches[0].clientY - touchStartY.current;
+    touchStartX.current = null;
+    touchStartY.current = null;
+    if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY) * 1.2) {
+      if (deltaX < 0) {
+        nextSlide(1);
+      } else {
+        nextSlide(-1);
+      }
+    }
+  };
 
   const copyEmail = () => {
     if (navigator.clipboard) {
@@ -601,9 +623,14 @@ export default function App() {
                           <p>{p.tagline}</p>
                           <div className="project-tags">
                             {p.stack.slice(0, 4).map((t) => (
-                              <span key={t}>{t}</span>
+                              <span key={t}>
+                                <span className="tech-badge-dot" />
+                                {t}
+                              </span>
                             ))}
-                            {p.stack.length > 4 && <span>+{p.stack.length - 4}</span>}
+                            {p.stack.length > 4 && (
+                              <span className="tag-more">+{p.stack.length - 4}</span>
+                            )}
                           </div>
                         </div>
                       </a>
@@ -614,7 +641,7 @@ export default function App() {
                 <span>
                   <Icon name="code" size={15} /> Thoughtful on the outside. Solid on the inside.
                 </span>
-                <span>CONCEPT PROJECTS · REAL POSSIBILITIES</span>
+                <span>PROJECTS · REAL POSSIBILITIES</span>
               </div>
             </section>
 
@@ -940,11 +967,17 @@ export default function App() {
                   <small>{project.platform}</small>
                 </p>
               </div>
-              <div>
-                <span>CORE TECH STACK</span>
+              <div className="case-meta-stack">
+                <span className="case-meta-label">
+                  <span className="meta-label-dot" />
+                  CORE TECH STACK
+                </span>
                 <div className="project-tags">
                   {project.stack.map((t) => (
-                    <span key={t}>{t}</span>
+                    <span key={t}>
+                      <span className="tech-badge-dot" />
+                      {t}
+                    </span>
                   ))}
                 </div>
               </div>
@@ -1168,7 +1201,12 @@ export default function App() {
           aria-label="Image preview"
           onClick={() => setLightbox(false)}
         >
-          <div className="lightbox-card" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="lightbox-card"
+            onClick={(e) => e.stopPropagation()}
+            onTouchStart={handleLightboxTouchStart}
+            onTouchEnd={handleLightboxTouchEnd}
+          >
             <div className="lightbox-header">
               <div className="lightbox-title-info">
                 <span className="lightbox-proj-name">{project.name}</span>
